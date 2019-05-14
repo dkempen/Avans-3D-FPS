@@ -5,8 +5,9 @@
 #include "Components/GameObject.h"
 #include "Components/CubeComponent.h"
 #include "Components/PlayerComponent.h"
+#include <chrono>
 
-float lastFrameTime;
+std::chrono::time_point<std::chrono::high_resolution_clock> lastFrameTime;
 float deltaTime;
 
 int width = 1280;
@@ -16,6 +17,7 @@ bool fill = TRUE;
 bool perspective = TRUE;
 
 bool keys[255];
+int cursorOffsetX, cursorOffsetY;
 bool justMovedMouse = false;
 
 std::vector<GameObject*> objects;
@@ -29,11 +31,9 @@ void onDisplay();
 void displayText();
 void onKey(unsigned char keyId, int x, int y);
 void onKeyUp(unsigned char keyId, int x, int y);
+void onMotion(int x, int y);
 void onMousePassiveMotion(int x, int y);
-void onMouse(int x, int y);
 void onReshape(int w, int h);
-
-void moveCamera(float angle, float fac);
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 	glutKeyboardFunc(onKey);
 	glutKeyboardUpFunc(onKeyUp);
 	glutPassiveMotionFunc(onMousePassiveMotion);
+	glutMotionFunc(onMotion);
 
 	glutWarpPointer(width / 2, height / 2);
 	initGL();
@@ -64,6 +65,7 @@ void initGL()
 	glDepthFunc(GL_LEQUAL);
 	glClearColor(0, 0.6, 0.8, 1.0);
 	glutSetCursor(GLUT_CURSOR_NONE);
+	reinterpret_cast<BOOL(WINAPI*)(int)>(wglGetProcAddress("wglSwapIntervalEXT"))(0);
 }
 
 void initGame()
@@ -72,12 +74,25 @@ void initGame()
 	player = new GameObject();
 	player->addComponent(new PlayerComponent());
 	player->position = Vec3f(0, 0, 0);
+	player->rotation.z = 180;
 	objects.push_back(player);
 
 	// Create cube in the center of the world
-	GameObject* o = new GameObject();
-	o->addComponent(new CubeComponent(0.5));
+	auto o = new GameObject();
+	o->addComponent(new CubeComponent(1));
 	o->position = Vec3f(0, 0, 0);
+	objects.push_back(o);
+
+	// Create small cube in the y axis of the world
+	o = new GameObject();
+	o->addComponent(new CubeComponent(0.5));
+	o->position = Vec3f(0, 2, 0);
+	objects.push_back(o);
+
+	// Create super small cube
+	o = new GameObject();
+	o->addComponent(new CubeComponent(0.2));
+	o->position = Vec3f(2, 2, 2);
 	objects.push_back(o);
 }
 
@@ -91,7 +106,8 @@ void onDisplay()
 	glLoadIdentity();
 	glRotatef(player->rotation.x, 1, 0, 0);
 	glRotatef(player->rotation.y, 0, 1, 0);
-	glTranslatef(-player->position.x, -player->position.z, -player->position.y);
+	glRotatef(player->rotation.z, 0, 0, 1);
+	glTranslatef(player->position.x, player->position.y, player->position.z);
 
 	// Draw stuff
 	for (auto &o : objects)
@@ -111,10 +127,10 @@ void displayText()
 		"\ny " + std::to_string(player->position.y) +
 		"\nz " + std::to_string(player->position.z) +
 		"\nX " + std::to_string(player->rotation.x) +
-		"\nY " + std::to_string(player->position.z);
+		"\nY " + std::to_string(player->rotation.y);
 
-	int xpos = 20;
-	int ypos = 30;
+	const auto xPos = 20;
+	auto yPos = 30;
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_COLOR_MATERIAL);
@@ -127,14 +143,14 @@ void displayText()
 	glLoadIdentity();
 
 	glColor3f(1, 1, 1);
-	glRasterPos2f(xpos, ypos);
-	int len = text.length();
-	for (int i = 0; i < len; i++)
+	glRasterPos2f(xPos, yPos);
+	const int len = text.length();
+	for (auto i = 0; i < len; i++)
 	{
 		if (text[i] == '\n')
 		{
-			ypos += 20;
-			glRasterPos2f(xpos, ypos);
+			yPos += 20;
+			glRasterPos2f(xPos, yPos);
 			continue;
 		}
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
@@ -143,10 +159,12 @@ void displayText()
 
 void onIdle()
 {
-	float frameTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
-	deltaTime = frameTime - lastFrameTime;
+	const auto frameTime = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<float, std::milli> elapsed = frameTime - lastFrameTime;
+	deltaTime = elapsed.count() / 1000.0f;
 	lastFrameTime = frameTime;
 
+	// Update stuff
 	for (auto &o : objects)
 		o->update(deltaTime);
 
@@ -165,22 +183,19 @@ void onKeyUp(unsigned char keyId, int x, int y)
 	keys[keyId] = false;
 }
 
+void onMotion(int x, int y)
+{
+	onMousePassiveMotion(x, y);
+}
+
 void onMousePassiveMotion(int x, int y)
 {
-	auto dx = x - width / 2;
-	auto dy = y - height / 2;
+	const auto dx = x - width / 2;
+	const auto dy = y - height / 2;
 	if ((dx != 0 || dy != 0) && abs(dx) < 400 && abs(dy) < 400 && !justMovedMouse)
 	{
-		player->rotation.y += dx / 10.0f;
-		player->rotation.x += dy / 10.0f;
-		if (player->rotation.x < -90)
-			player->rotation.x = -90;
-		if (player->rotation.x > 90)
-			player->rotation.x = 90;
-		if (player->rotation.y > 360)
-			player->rotation.y -= 360;
-		if (player->rotation.y <= 0)
-			player->rotation.y += 360;
+		cursorOffsetX = dx;
+		cursorOffsetY = dy;
 	}
 	if (!justMovedMouse)
 	{
