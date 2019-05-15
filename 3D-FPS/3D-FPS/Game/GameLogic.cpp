@@ -1,0 +1,62 @@
+#include "GameLogic.h"
+#include "../Components/PlayerComponent.h"
+#include "../Components/CubeComponent.h"
+
+GameLogic::GameLogic()
+{
+	initGame();
+}
+
+GameLogic::~GameLogic()
+{
+}
+
+void GameLogic::initGame()
+{
+	// Init world
+	world = new World();
+
+	// Create player object
+	player = new GameObject();
+	player->addComponent(new PlayerComponent());
+	player->position = Vec3f(0, 0, 0);
+	player->rotation.z = 180;
+	objects.push_back(player);
+
+	// Create cube in the center of the world
+	auto o = new GameObject();
+	o->addComponent(new CubeComponent(1));
+	o->position = Vec3f(0, 0, 0);
+	objects.push_back(o);
+
+	// Create a plane
+	o = new GameObject();
+	o->addComponent(new CubeComponent(1));
+	o->position.y = -0.5;
+	o->scale = Vec3f(10, 1, 10);
+	objects.push_back(o);
+
+	// Create small cube in the y axis of the world
+	o = new GameObject();
+	o->addComponent(new CubeComponent(0.5));
+	o->position = Vec3f(0, 2, 0);
+	objects.push_back(o);
+
+	// Create super small cube
+	o = new GameObject();
+	o->addComponent(new CubeComponent(0.2));
+	o->position = Vec3f(2, 2, 2);
+	objects.push_back(o);
+}
+
+void GameLogic::draw()
+{
+	for (auto &o : objects)
+		o->draw();
+}
+
+void GameLogic::update(float deltaTime)
+{
+	for (auto &o : objects)
+		o->update(deltaTime);
+}

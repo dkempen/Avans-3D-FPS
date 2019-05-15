@@ -8,6 +8,8 @@ class PlayerComponent : public Component
 
 	void movePlayer(float angle, float fac);
 public:
+	float headHeight = 1.75;
+
 	PlayerComponent();
 	~PlayerComponent();
 
