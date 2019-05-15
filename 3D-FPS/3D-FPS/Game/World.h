@@ -1,13 +1,16 @@
 #pragma once
 #include <vector>
+#include "../Components/GameObject.h"
 
 class World
 {
 	const int WORLD_SIZE = 5;
-	std::vector<std::vector<bool>> blocks;
+	std::vector<std::vector<GameObject *>> blocks;
 
-	void initWorld();
+	void initWorld(std::vector<GameObject*> &objects);
 public:
-	World();
+	World(std::vector<GameObject*> &objects);
 	~World();
+
+	bool isWall(int x, int y);
 };

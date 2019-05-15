@@ -7,14 +7,12 @@ GameLogic::GameLogic()
 	initGame();
 }
 
-GameLogic::~GameLogic()
-{
-}
+GameLogic::~GameLogic() = default;
 
 void GameLogic::initGame()
 {
 	// Init world
-	world = new World();
+	world = new World(objects);
 
 	// Create player object
 	player = new GameObject();

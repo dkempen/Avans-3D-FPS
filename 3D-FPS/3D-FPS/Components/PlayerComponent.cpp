@@ -3,7 +3,7 @@
 #include <corecrt_math_defines.h>
 
 extern bool keys[256];
-extern int cursorOffsetX, cursorOffsetY;
+extern Vec2f cursorOffset;
 
 PlayerComponent::PlayerComponent() = default;
 
@@ -18,13 +18,12 @@ void PlayerComponent::update(float elapsedTime)
 	if (keys[int('e')]) gameObject->position.y += elapsedTime * speed;
 	if (keys[int('q')]) gameObject->position.y -= elapsedTime * speed;
 
-	if (cursorOffsetX == 0 && cursorOffsetY == 0)
+	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;
 
-	gameObject->rotation.x += cursorOffsetY / 10.0f;
-	gameObject->rotation.y += cursorOffsetX / 10.0f;
-	cursorOffsetX = 0;
-	cursorOffsetY = 0;
+	gameObject->rotation.x += cursorOffset.y / 10.0f;
+	gameObject->rotation.y += cursorOffset.x / 10.0f;
+	cursorOffset = { 0, 0 };
 	if (gameObject->rotation.x < -90)
 		gameObject->rotation.x = -90;
 	if (gameObject->rotation.x > 90)

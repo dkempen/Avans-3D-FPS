@@ -2,18 +2,17 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Components/GameObject.h"
-#include "Components/CubeComponent.h"
-#include "Components/PlayerComponent.h"
 #include <chrono>
 #include "Game/GameLogic.h"
+#include "Math/Vec.h"
+#include "Components/PlayerComponent.h"
 
 // Window, keys and mouse
 int width = 1280;
 int height = 720;
 
 bool keys[255];
-int cursorOffsetX, cursorOffsetY;
+Vec2f cursorOffset;
 bool justMovedMouse = false;
 
 // Clock
@@ -168,13 +167,10 @@ void onMotion(int x, int y)
 
 void onMousePassiveMotion(int x, int y)
 {
-	const auto dx = x - width / 2;
-	const auto dy = y - height / 2;
+	const auto dx = x - width / 2.0f;
+	const auto dy = y - height / 2.0f;
 	if ((dx != 0 || dy != 0) && abs(dx) < 400 && abs(dy) < 400 && !justMovedMouse)
-	{
-		cursorOffsetX = dx;
-		cursorOffsetY = dy;
-	}
+		cursorOffset = { dx, dy };
 	if (!justMovedMouse)
 	{
 		glutWarpPointer(width / 2, height / 2);

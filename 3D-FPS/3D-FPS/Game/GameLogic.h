@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "../Components/GameObject.h"
 #include "World.h"
 
 class GameLogic
@@ -8,7 +7,7 @@ class GameLogic
 	void initGame();
 public:
 	World *world;
-	std::vector<GameObject*> objects;
+	std::vector<GameObject *> objects;
 	GameObject *player;
 
 	GameLogic();
