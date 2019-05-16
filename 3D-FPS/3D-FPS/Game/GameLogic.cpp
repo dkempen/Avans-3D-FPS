@@ -1,6 +1,6 @@
 #include "GameLogic.h"
-#include "../Components/PlayerComponent.h"
-#include "../Components/CubeComponent.h"
+#include "../Components/Control/PlayerComponent.h"
+#include "../Components/Draw/CubeComponent.h"
 
 GameLogic::GameLogic()
 {

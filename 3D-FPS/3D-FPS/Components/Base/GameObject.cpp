@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "DrawComponent.h"
 #include <GL/freeglut.h>
 
 GameObject::GameObject()
@@ -17,7 +16,9 @@ void GameObject::addComponent(Component * component)
 	components.push_back(component);
 
 	if (!drawComponent)
-		drawComponent = dynamic_cast<DrawComponent*>(component);
+		drawComponent = dynamic_cast<DrawComponent *>(component);
+	if (!controlComponent)
+		controlComponent = dynamic_cast<ControlComponent *>(component);
 }
 
 std::list<Component*> GameObject::getComponents()
@@ -43,6 +44,7 @@ void GameObject::draw()
 
 void GameObject::update(float elapsedTime)
 {
-	for (auto &c : components)
-		c->update(elapsedTime);
+	if (controlComponent) controlComponent->update(elapsedTime);
+	// for (auto &c : components)
+	// 	c->update(elapsedTime);
 }

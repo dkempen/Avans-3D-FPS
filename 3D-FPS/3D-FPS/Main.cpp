@@ -5,7 +5,7 @@
 #include <chrono>
 #include "Game/GameLogic.h"
 #include "Math/Vec.h"
-#include "Components/PlayerComponent.h"
+#include "Components/Control/PlayerComponent.h"
 
 // Window, keys and mouse
 int width = 1280;

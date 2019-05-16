@@ -1,14 +1,15 @@
 #pragma once
 
 #include <list>
-#include "../Math/Vec.h"
-
-class Component;
-class DrawComponent;
+#include "../../Math/Vec.h"
+#include "Component.h"
+#include "../Draw/DrawComponent.h"
+#include "../Control/ControlComponent.h"
 
 class GameObject
 {
-	DrawComponent* drawComponent = nullptr;
+	DrawComponent *drawComponent = nullptr;
+	ControlComponent *controlComponent = nullptr;
 
 	std::list<Component*> components;
 public:
@@ -18,6 +19,7 @@ public:
 	Vec3f position;
 	Vec3f rotation;
 	Vec3f scale = Vec3f(1, 1, 1);
+	Vec3f velocity;
 
 	void addComponent(Component* component);
 	std::list<Component*> getComponents();

@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "../Components/GameObject.h"
+#include "../Components/Base/GameObject.h"
 
 class World
 {

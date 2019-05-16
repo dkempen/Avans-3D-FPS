@@ -1,6 +1,7 @@
 #include "PlayerComponent.h"
-#include "GameObject.h"
 #include <corecrt_math_defines.h>
+#include "../../Math/Vec.h"
+#include "../Base/GameObject.h"
 
 extern bool keys[256];
 extern Vec2f cursorOffset;

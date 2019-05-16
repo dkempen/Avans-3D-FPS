@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Component.h"
+#include "ControlComponent.h"
 
-class PlayerComponent : public Component
+class PlayerComponent : public ControlComponent
 {
 	float speed = 3;
 

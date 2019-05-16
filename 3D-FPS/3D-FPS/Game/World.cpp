@@ -1,5 +1,5 @@
 #include "World.h"
-#include "../Components/CubeComponent.h"
+#include "../Components/Draw/CubeComponent.h"
 
 World::World(std::vector<GameObject*> &objects)
 {
