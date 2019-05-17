@@ -101,11 +101,14 @@ void displayText()
 	// Create a string that displays the fps, current camera location and rotation
 	std::string text =
 		"fps " + std::to_string(int(1 / deltaTime)) +
-		"\nx " + std::to_string(gameLogic.player->position.x) +
-		"\ny " + std::to_string(gameLogic.player->position.y) +
-		"\nz " + std::to_string(gameLogic.player->position.z) +
-		"\nX " + std::to_string(gameLogic.player->rotation.x) +
-		"\nY " + std::to_string(gameLogic.player->rotation.y);
+		"\npx " + std::to_string(gameLogic.player->position.x) +
+		"\npy " + std::to_string(gameLogic.player->position.y) +
+		"\npz " + std::to_string(gameLogic.player->position.z) +
+		"\n\nrx "+std::to_string(gameLogic.player->rotation.x) +
+		"\nry " + std::to_string(gameLogic.player->rotation.y) +
+		"\n\nvx "+std::to_string(gameLogic.player->velocity.x) +
+		"\nvy " + std::to_string(gameLogic.player->velocity.y) +
+		"\nvz " + std::to_string(gameLogic.player->velocity.z);
 
 	const auto xPos = 20;
 	auto yPos = 30;

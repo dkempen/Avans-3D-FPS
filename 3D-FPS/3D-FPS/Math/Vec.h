@@ -17,9 +17,13 @@ public:
 	float& operator [](int);
 
 	Vec3f operator - (const Vec3f &other) const;
+	Vec3f operator * (const float &other) const;
+	Vec3f &operator += (const Vec3f &other);
+	Vec3f &operator *= (const float& other);
 
 	Vec3f normalized() const;
 	float length() const;
+	void max(float maxLength);
 };
 
 class Vec2f

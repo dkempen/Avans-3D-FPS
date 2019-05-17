@@ -1,16 +1,16 @@
 #pragma once
 
 #include "ControlComponent.h"
+#include "../../Math/Vec.h"
 
 class PlayerComponent : public ControlComponent
 {
-	const float MAX_SPEED = 3;
+	const float WALK_SPEED = 4.3;
 	const float ACCELERATION = 1;
-	bool hasMoved;
 
-	void movePlayer(float angle, float elapsedTime);
+	Vec3f convertHeading(int strafe, int forward, float multiplier) const;
 public:
-	float headHeight = 1.75;
+	float headHeight = 1.62;
 
 	PlayerComponent();
 	~PlayerComponent();

@@ -25,9 +25,30 @@ float& Vec3f::operator [](int index)
 	return v[index];
 }
 
-Vec3f Vec3f::operator-(const Vec3f & other) const
+Vec3f Vec3f::operator-(const Vec3f &other) const
 {
 	return Vec3f(x - other.x, y - other.y, z - other.z);
+}
+
+Vec3f &Vec3f::operator+=(const Vec3f &other)
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+	return *this;
+}
+
+Vec3f& Vec3f::operator*=(const float& other)
+{
+	x *= other;
+	y *= other;
+	z *= other;
+	return *this;
+}
+
+Vec3f Vec3f::operator*(const float& other) const
+{
+	return Vec3f(x * other, y * other, z * other);
 }
 
 Vec3f Vec3f::normalized() const
@@ -39,6 +60,21 @@ Vec3f Vec3f::normalized() const
 float Vec3f::length() const
 {
 	return sqrt(x*x+y*y+z*z);
+}
+
+void Vec3f::max(float maxLength)
+{
+	const auto len = length();
+	if (len <= maxLength)
+		return;
+
+	x /= len;
+	y /= len;
+	z /= len;
+
+	x *= maxLength;
+	y *= maxLength;
+	z *= maxLength;
 }
 
 Vec2f::Vec2f(const float x, const float y)

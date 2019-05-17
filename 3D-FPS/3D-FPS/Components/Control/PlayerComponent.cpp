@@ -2,6 +2,8 @@
 #include <corecrt_math_defines.h>
 #include "../../Math/Vec.h"
 #include "../Base/GameObject.h"
+#include <algorithm>
+#include <valarray>
 
 extern bool keys[256];
 extern Vec2f cursorOffset;
@@ -12,19 +14,44 @@ PlayerComponent::~PlayerComponent() = default;
 
 void PlayerComponent::update(float elapsedTime)
 {
-	hasMoved = false;
+	/*hasMoved = false;
 	if (keys[int('a')]) movePlayer(0, elapsedTime);
 	if (keys[int('d')]) movePlayer(180, elapsedTime);
 	if (keys[int('w')]) movePlayer(90, elapsedTime);
 	if (keys[int('s')]) movePlayer(270, elapsedTime);
 	if (keys[int(' ')] && gameObject->position.y <= 0) gameObject->velocity.y = 1;
-	// if (keys[int('q')]) gameObject->position.y -= elapsedTime * MAX_SPEED;
+	// if (keys[int('q')]) gameObject->position.y -= elapsedTime * WALK_SPEED;
 
 	if (!hasMoved)
 	{
 		gameObject->velocity.x = 0;
 		gameObject->velocity.z = 0;
-	}
+	}*/
+
+	int strafe = 0, forward = 0;
+
+	if (keys[int('w')])
+		forward = 1;
+	if (keys[int('s')])
+		forward = -1;
+	if (keys[int('w')] && keys[int('s')])
+		forward = 0;
+
+	if (keys[int('a')])
+		strafe = 1;
+	if (keys[int('d')])
+		strafe = -1;
+	if (keys[int('a')] && keys[int('d')])
+		strafe = 0;
+
+	Vec3f vector = convertHeading(strafe, forward, WALK_SPEED);
+	float slipperiness = 0.6;
+	slipperiness = slipperiness * 0.91;
+	float multiplier = 0.1 * (0.1627714 / std::pow(slipperiness, 3));
+	Vec3f vel = vector * multiplier;// *ACCELERATION * 1.0f;
+	gameObject->velocity += vel;
+	gameObject->velocity *= 0.99;
+	gameObject->velocity.max(WALK_SPEED);
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;
@@ -42,23 +69,22 @@ void PlayerComponent::update(float elapsedTime)
 		gameObject->rotation.y += 360;
 }
 
-void PlayerComponent::movePlayer(float angle, float elapsedTime)
+Vec3f PlayerComponent::convertHeading(int strafe, int forward, const float multiplier) const
 {
-	hasMoved = true;
+	float speed = sqrt(strafe * strafe + forward * forward);
+	if (speed < 0.01)
+		return { 0, 0, 0 };
 
-	float maxX = float(cos((gameObject->rotation.y + angle) / 180 * M_PI)) * MAX_SPEED;
-	gameObject->velocity.x = -maxX;
-	// if (maxX < 0)
-	// 	gameObject->velocity.x -= ACCELERATION * elapsedTime;
-	// else
-	// 	gameObject->velocity.x += ACCELERATION * elapsedTime;
+	speed = multiplier / float(std::max(speed, 1.0f));
 
-	float maxZ = float(sin((gameObject->rotation.y + angle) / 180 * M_PI)) * MAX_SPEED;
-	gameObject->velocity.z = maxZ;
-	// if (maxY < 0)
-	// 	gameObject->velocity.z -= ACCELERATION * elapsedTime;
-	// else
-	// 	gameObject->velocity.z += ACCELERATION * elapsedTime;
+	strafe *= speed;
+	forward *= speed;
 
-	// gameObject->velocity.z += float(sin((gameObject->rotation.y + angle) / 180 * M_PI)) * elapsedTime;
+	const float yawXComponent = cos(gameObject->rotation.y * (M_PI / 180.0f));
+	const float yawZComponent = sin(gameObject->rotation.y * (M_PI / 180.0f));
+
+	const auto xComponent = forward * yawZComponent - strafe * yawXComponent;
+	const auto zComponent = forward * yawXComponent + strafe * yawZComponent;
+
+	return { xComponent, 0, zComponent };
 }
