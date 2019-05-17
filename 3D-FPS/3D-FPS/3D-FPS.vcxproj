@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Physics\CollisionComponent.cpp" />
     <ClCompile Include="Components\Base\Component.cpp" />
     <ClCompile Include="Components\Draw\DrawComponent.cpp" />
     <ClCompile Include="Components\Base\GameObject.cpp" />
@@ -127,8 +128,10 @@
     <ClCompile Include="Math\Vec.cpp" />
     <ClCompile Include="Components\Control\PlayerComponent.cpp" />
     <ClCompile Include="Game\World.cpp" />
+    <ClCompile Include="Components\Physics\PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Physics\CollisionComponent.h" />
     <ClInclude Include="Components\Base\Component.h" />
     <ClInclude Include="Components\Base\GameObject.h" />
     <ClInclude Include="Components\Draw\DrawComponent.h" />
@@ -138,6 +141,7 @@
     <ClInclude Include="Math\Vec.h" />
     <ClInclude Include="Components\Control\PlayerComponent.h" />
     <ClInclude Include="Game\World.h" />
+    <ClInclude Include="Components\Physics\PhysicsComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

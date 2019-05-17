@@ -5,10 +5,10 @@ class GameObject;
 class Component
 {
 protected:
-	GameObject* gameObject{};
+	GameObject *gameObject{};
 public:
 	Component();
 	virtual ~Component();
 
-	void setGameObject(GameObject* gameObject) { this->gameObject = gameObject; }
+	void setGameObject(GameObject *gameObject) { this->gameObject = gameObject; }
 };

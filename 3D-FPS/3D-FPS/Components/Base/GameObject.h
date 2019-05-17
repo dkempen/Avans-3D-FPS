@@ -3,15 +3,21 @@
 #include <list>
 #include "../../Math/Vec.h"
 #include "Component.h"
+#include "../../Game/World.h"
 #include "../Draw/DrawComponent.h"
 #include "../Control/ControlComponent.h"
+#include "../Physics/PhysicsComponent.h"
+
+class PhysicsComponent;
+class World;
 
 class GameObject
 {
-	DrawComponent *drawComponent = nullptr;
-	ControlComponent *controlComponent = nullptr;
+	DrawComponent *drawComponent;
+	ControlComponent *controlComponent;
+	PhysicsComponent *physicsComponent;
 
-	std::list<Component*> components;
+	std::list<Component *> components;
 public:
 	GameObject();
 	~GameObject();
@@ -21,9 +27,9 @@ public:
 	Vec3f scale = Vec3f(1, 1, 1);
 	Vec3f velocity;
 
-	void addComponent(Component* component);
-	std::list<Component*> getComponents();
-	void update(float elapsedTime);
+	void addComponent(Component *component);
+	std::list<Component *> getComponents();
+	void update(World &world, float elapsedTime);
 	void draw();
 
 	template<class T>

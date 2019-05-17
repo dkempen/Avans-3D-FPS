@@ -1,14 +1,9 @@
 #include "GameObject.h"
 #include <GL/freeglut.h>
 
-GameObject::GameObject()
-{
-}
+GameObject::GameObject() = default;
 
-
-GameObject::~GameObject()
-{
-}
+GameObject::~GameObject() = default;
 
 void GameObject::addComponent(Component * component)
 {
@@ -19,6 +14,8 @@ void GameObject::addComponent(Component * component)
 		drawComponent = dynamic_cast<DrawComponent *>(component);
 	if (!controlComponent)
 		controlComponent = dynamic_cast<ControlComponent *>(component);
+	if (!physicsComponent)
+		physicsComponent = dynamic_cast<PhysicsComponent *>(component);
 }
 
 std::list<Component*> GameObject::getComponents()
@@ -42,9 +39,10 @@ void GameObject::draw()
 	glPopMatrix();
 }
 
-void GameObject::update(float elapsedTime)
+void GameObject::update(World &world, float elapsedTime)
 {
 	if (controlComponent) controlComponent->update(elapsedTime);
+	if (physicsComponent) physicsComponent->update(world, elapsedTime);
 	// for (auto &c : components)
 	// 	c->update(elapsedTime);
 }

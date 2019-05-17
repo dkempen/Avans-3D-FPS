@@ -1,6 +1,7 @@
 #include "GameLogic.h"
 #include "../Components/Control/PlayerComponent.h"
 #include "../Components/Draw/CubeComponent.h"
+#include "../Components/Physics/CollisionComponent.h"
 
 GameLogic::GameLogic()
 {
@@ -17,6 +18,7 @@ void GameLogic::initGame()
 	// Create player object
 	player = new GameObject();
 	player->addComponent(new PlayerComponent());
+	player->addComponent(new CollisionComponent());
 	player->position = Vec3f(0, 0, 0);
 	player->rotation.z = 180;
 	objects.push_back(player);
@@ -56,5 +58,5 @@ void GameLogic::draw()
 void GameLogic::update(float deltaTime)
 {
 	for (auto &o : objects)
-		o->update(deltaTime);
+		o->update(*world, deltaTime);
 }
