@@ -12,12 +12,19 @@ PlayerComponent::~PlayerComponent() = default;
 
 void PlayerComponent::update(float elapsedTime)
 {
-	if (keys[int('a')]) movePlayer(0, elapsedTime * speed);
-	if (keys[int('d')]) movePlayer(180, elapsedTime * speed);
-	if (keys[int('w')]) movePlayer(90, elapsedTime * speed);
-	if (keys[int('s')]) movePlayer(270, elapsedTime * speed);
-	if (keys[int('e')]) gameObject->position.y += elapsedTime * speed;
-	if (keys[int('q')]) gameObject->position.y -= elapsedTime * speed;
+	hasMoved = false;
+	if (keys[int('a')]) movePlayer(0, elapsedTime);
+	if (keys[int('d')]) movePlayer(180, elapsedTime);
+	if (keys[int('w')]) movePlayer(90, elapsedTime);
+	if (keys[int('s')]) movePlayer(270, elapsedTime);
+	if (keys[int(' ')] && gameObject->position.y <= 0) gameObject->velocity.y = 1;
+	// if (keys[int('q')]) gameObject->position.y -= elapsedTime * MAX_SPEED;
+
+	if (!hasMoved)
+	{
+		gameObject->velocity.x = 0;
+		gameObject->velocity.z = 0;
+	}
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;
@@ -35,8 +42,23 @@ void PlayerComponent::update(float elapsedTime)
 		gameObject->rotation.y += 360;
 }
 
-void PlayerComponent::movePlayer(float angle, float fac)
+void PlayerComponent::movePlayer(float angle, float elapsedTime)
 {
-	gameObject->position.x -= float(cos((gameObject->rotation.y + angle) / 180 * M_PI)) * fac;
-	gameObject->position.z += float(sin((gameObject->rotation.y + angle) / 180 * M_PI)) * fac;
+	hasMoved = true;
+
+	float maxX = float(cos((gameObject->rotation.y + angle) / 180 * M_PI)) * MAX_SPEED;
+	gameObject->velocity.x = -maxX;
+	// if (maxX < 0)
+	// 	gameObject->velocity.x -= ACCELERATION * elapsedTime;
+	// else
+	// 	gameObject->velocity.x += ACCELERATION * elapsedTime;
+
+	float maxZ = float(sin((gameObject->rotation.y + angle) / 180 * M_PI)) * MAX_SPEED;
+	gameObject->velocity.z = maxZ;
+	// if (maxY < 0)
+	// 	gameObject->velocity.z -= ACCELERATION * elapsedTime;
+	// else
+	// 	gameObject->velocity.z += ACCELERATION * elapsedTime;
+
+	// gameObject->velocity.z += float(sin((gameObject->rotation.y + angle) / 180 * M_PI)) * elapsedTime;
 }

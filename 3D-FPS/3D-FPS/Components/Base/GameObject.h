@@ -20,11 +20,11 @@ class GameObject
 	std::list<Component *> components;
 public:
 	GameObject();
-	~GameObject();
+	~GameObject() = default;
 
 	Vec3f position;
 	Vec3f rotation;
-	Vec3f scale = Vec3f(1, 1, 1);
+	Vec3f scale;
 	Vec3f velocity;
 
 	void addComponent(Component *component);

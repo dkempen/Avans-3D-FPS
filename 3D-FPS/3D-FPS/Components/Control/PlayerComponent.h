@@ -4,9 +4,11 @@
 
 class PlayerComponent : public ControlComponent
 {
-	float speed = 3;
+	const float MAX_SPEED = 3;
+	const float ACCELERATION = 1;
+	bool hasMoved;
 
-	void movePlayer(float angle, float fac);
+	void movePlayer(float angle, float elapsedTime);
 public:
 	float headHeight = 1.75;
 

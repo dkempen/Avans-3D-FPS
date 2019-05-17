@@ -5,7 +5,7 @@
 class World
 {
 	const int WORLD_SIZE = 5;
-	std::vector<std::vector<GameObject *>> blocks;
+	std::vector<std::vector<bool>> blocks;
 
 	void initWorld(std::vector<GameObject *> &objects);
 public:

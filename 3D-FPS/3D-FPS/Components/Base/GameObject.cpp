@@ -1,9 +1,12 @@
 #include "GameObject.h"
 #include <GL/freeglut.h>
 
-GameObject::GameObject() = default;
+GameObject::GameObject()
+{
+	scale = { 1, 1, 1 };
+};
 
-GameObject::~GameObject() = default;
+// GameObject::~GameObject() = default;
 
 void GameObject::addComponent(Component * component)
 {

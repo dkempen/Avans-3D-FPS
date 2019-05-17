@@ -12,10 +12,10 @@ World::~World()
 
 void World::initWorld(std::vector<GameObject*> &objects)
 {
-	blocks.resize(WORLD_SIZE, std::vector<GameObject *>(WORLD_SIZE));
+	blocks.resize(WORLD_SIZE, std::vector<bool>(WORLD_SIZE));
 	GameObject *block = new GameObject();
 	block->addComponent(new CubeComponent(1));
-	block->position = Vec3f(1.5, 0.5, 1.5);
+	block->position = { 1.5, 0.5, 1.5 };
 	blocks[1][1] = block;
 	objects.push_back(block);
 }
