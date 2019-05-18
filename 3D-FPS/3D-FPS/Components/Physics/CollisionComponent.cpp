@@ -9,6 +9,13 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 {
 	BoundingBox absolute = gameObject->boundingBox.getAbsoluteBox(gameObject->position);
 
+	gameObject->velocity.y -= 20.0f * elapsedTime;
+	if (gameObject->position.y < -100.0f)
+	{
+		gameObject->position = { 0, 0, 0 };
+		gameObject->velocity = { 0, 0, 0 };
+	}
+
 	auto dx = gameObject->velocity.x * elapsedTime;
 	auto dy = gameObject->velocity.y * elapsedTime;
 	auto dz = gameObject->velocity.z * elapsedTime;
@@ -17,6 +24,11 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	const auto z = int(gameObject->position.z + dz);
 
 	BoundingBox temp;
+	
+	// Floor Y bounding box
+	temp.min = { -10.0f, -1.0f, -10.0f };
+	temp.max = { 10.0f, 0.0f, 10.0f };
+	calculateOffsetY(absolute, temp, dy);
 
 	for (auto xx = -1; xx <= 1; ++xx)
 		for (auto zz = -1; zz <= 1; ++zz)

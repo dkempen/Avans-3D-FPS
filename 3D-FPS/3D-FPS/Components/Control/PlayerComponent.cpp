@@ -34,14 +34,24 @@ void PlayerComponent::update(float elapsedTime)
 	if (keys[int('a')] && keys[int('d')])
 		strafe = 0;
 
+	// TODO: Cleanup
 	const auto vector = convertHeading(strafe, forward, WALK_SPEED);
 	auto slipperiness = 0.6f;
 	slipperiness = slipperiness * 0.91f;
 	const auto multiplier = 0.1f * (0.1627714f / std::pow(slipperiness, 3));
-	const auto vel = vector * multiplier;// *ACCELERATION * 1.0f;
-	gameObject->velocity += vel;
-	gameObject->velocity *= 0.99f;
-	gameObject->velocity.max(WALK_SPEED);
+	const auto vel = vector * multiplier;
+	gameObject->velocity.x += vel.x;
+	if (strafe != 0 || forward != 0 && abs(gameObject->velocity.x) > vector.x)
+		gameObject->velocity.x = vector.x;
+	gameObject->velocity.z += vel.z;
+	if (strafe != 0 || forward != 0 && abs(gameObject->velocity.z) > vector.z)
+		gameObject->velocity.z = vector.z;
+	gameObject->velocity.x *= 1 - 20.0f * elapsedTime;
+	gameObject->velocity.z *= 1 - 20.0f * elapsedTime;
+	gameObject->velocity.maxXZ(WALK_SPEED);
+
+	if (keys[int(' ')] && gameObject->velocity.y == 0)
+		gameObject->velocity.y = 8;
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;

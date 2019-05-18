@@ -62,18 +62,16 @@ float Vec3f::length() const
 	return sqrt(x*x+y*y+z*z);
 }
 
-void Vec3f::max(float maxLength)
+void Vec3f::maxXZ(float maxLength)
 {
-	const auto len = length();
+	const auto len = sqrt(x*x + z*z);
 	if (len <= maxLength)
 		return;
 
 	x /= len;
-	y /= len;
 	z /= len;
 
 	x *= maxLength;
-	y *= maxLength;
 	z *= maxLength;
 }
 

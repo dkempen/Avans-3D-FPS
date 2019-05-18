@@ -23,7 +23,7 @@ public:
 
 	Vec3f normalized() const;
 	float length() const;
-	void max(float maxLength);
+	void maxXZ(float maxLength);
 };
 
 class Vec2f

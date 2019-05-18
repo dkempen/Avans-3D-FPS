@@ -6,6 +6,8 @@
 #include "Game/GameLogic.h"
 #include "Math/Vec.h"
 #include "Components/Control/PlayerComponent.h"
+#include <sstream>
+#include <iomanip>
 
 // Window, keys and mouse
 int width = 1280;
@@ -99,16 +101,18 @@ void onDisplay()
 void displayText()
 {
 	// Create a string that displays the fps, current camera location and rotation
-	std::string text =
-		"fps " + std::to_string(int(1 / deltaTime)) +
-		"\npx " + std::to_string(gameLogic.player->position.x) +
-		"\npy " + std::to_string(gameLogic.player->position.y) +
-		"\npz " + std::to_string(gameLogic.player->position.z) +
-		"\n\nrx "+std::to_string(gameLogic.player->rotation.x) +
-		"\nry " + std::to_string(gameLogic.player->rotation.y) +
-		"\n\nvx "+std::to_string(gameLogic.player->velocity.x) +
-		"\nvy " + std::to_string(gameLogic.player->velocity.y) +
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(5) <<
+		"fps " + std::to_string(int(1 / deltaTime)) <<
+		"\npx " + std::to_string(gameLogic.player->position.x) <<
+		"\npy " + std::to_string(gameLogic.player->position.y) <<
+		"\npz " + std::to_string(gameLogic.player->position.z) <<
+		"\n\nrx "+std::to_string(gameLogic.player->rotation.x) <<
+		"\nry " + std::to_string(gameLogic.player->rotation.y) <<
+		"\n\nvx "+std::to_string(gameLogic.player->velocity.x) <<
+		"\nvy " + std::to_string(gameLogic.player->velocity.y) <<
 		"\nvz " + std::to_string(gameLogic.player->velocity.z);
+	auto text = ss.str();
 
 	const auto xPos = 20;
 	auto yPos = 30;
