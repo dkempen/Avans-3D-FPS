@@ -2,6 +2,7 @@
 
 #include <list>
 #include "../../Math/Vec.h"
+#include "../../Math/BoundingBox.h"
 #include "Component.h"
 #include "../../Game/World.h"
 #include "../Draw/DrawComponent.h"
@@ -19,13 +20,16 @@ class GameObject
 
 	std::list<Component *> components;
 public:
-	GameObject();
-	~GameObject() = default;
-
 	Vec3f position;
 	Vec3f rotation;
 	Vec3f scale;
+
 	Vec3f velocity;
+
+	BoundingBox boundingBox;
+
+	GameObject();
+	~GameObject() = default;
 
 	void addComponent(Component *component);
 	std::list<Component *> getComponents();

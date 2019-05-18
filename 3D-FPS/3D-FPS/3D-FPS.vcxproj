@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Math\BoundingBox.cpp" />
     <ClCompile Include="Components\Physics\CollisionComponent.cpp" />
     <ClCompile Include="Components\Base\Component.cpp" />
     <ClCompile Include="Components\Draw\DrawComponent.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="Components\Physics\PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Math\BoundingBox.h" />
     <ClInclude Include="Components\Physics\CollisionComponent.h" />
     <ClInclude Include="Components\Base\Component.h" />
     <ClInclude Include="Components\Base\GameObject.h" />

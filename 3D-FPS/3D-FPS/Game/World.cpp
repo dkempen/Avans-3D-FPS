@@ -16,11 +16,19 @@ void World::initWorld(std::vector<GameObject*> &objects)
 	GameObject *block = new GameObject();
 	block->addComponent(new CubeComponent(1));
 	block->position = { 1.5, 0.5, 1.5 };
-	blocks[1][1] = block;
 	objects.push_back(block);
+	blocks[1][1] = block;
+
+	GameObject *block2 = new GameObject();
+	block2->addComponent(new CubeComponent(1));
+	block2->position = { 2.5, 0.5, 2.5 };
+	objects.push_back(block2);
+	blocks[2][2] = block2;
 }
 
-bool World::isWall(int x, int y)
+bool World::isWall(int x, int z)
 {
-	return blocks[x][y];
+	if (x < 0 || z < 0 || x >= WORLD_SIZE || z >= WORLD_SIZE)
+		return false;
+	return blocks[x][z];
 }

@@ -4,7 +4,7 @@
 
 class World
 {
-	const int WORLD_SIZE = 5;
+	const int WORLD_SIZE = 10;
 	std::vector<std::vector<bool>> blocks;
 
 	void initWorld(std::vector<GameObject *> &objects);

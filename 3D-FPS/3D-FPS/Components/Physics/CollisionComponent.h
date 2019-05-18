@@ -5,9 +5,10 @@
 
 class CollisionComponent : public PhysicsComponent
 {
+	void collideWithNearbyBoxes(World &world, float elapsedTime) const;
+	void calculateOffsetX(BoundingBox &box, BoundingBox &other, float &dx) const;
+	void calculateOffsetY(BoundingBox &box, BoundingBox &other, float &dy) const;
+	void calculateOffsetZ(BoundingBox &box, BoundingBox &other, float &dz) const;
 public:
-	CollisionComponent();
-	~CollisionComponent();
-
 	void update(World &world, float elapsedTime) override;
 };

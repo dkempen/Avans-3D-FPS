@@ -8,8 +8,5 @@ class World;
 class PhysicsComponent : public Component
 {
 public:
-	PhysicsComponent();
-	~PhysicsComponent();
-
 	virtual void update(World &world, float elapsedTime) {}
 };

@@ -65,7 +65,7 @@ void initGL()
 	glEnable(GL_DEPTH_TEST);
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);
-	glClearColor(0, 0.6, 0.8, 1.0);
+	glClearColor(0.0f, 0.6f, 0.8f, 1.0f);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	reinterpret_cast<BOOL(WINAPI*)(int)>(wglGetProcAddress("wglSwapIntervalEXT"))(0);
 }
@@ -124,14 +124,14 @@ void displayText()
 	glLoadIdentity();
 
 	glColor3f(1, 1, 1);
-	glRasterPos2f(xPos, yPos);
-	const int len = text.length();
+	glRasterPos2f(GLfloat(xPos), GLfloat(yPos));
+	const auto len = int(text.length());
 	for (auto i = 0; i < len; i++)
 	{
 		if (text[i] == '\n')
 		{
 			yPos += 20;
-			glRasterPos2f(xPos, yPos);
+			glRasterPos2f(GLfloat(xPos), GLfloat(yPos));
 			continue;
 		}
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);

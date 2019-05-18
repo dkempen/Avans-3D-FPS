@@ -4,11 +4,12 @@
 GameObject::GameObject()
 {
 	scale = { 1, 1, 1 };
-};
+	drawComponent = nullptr;
+	controlComponent = nullptr;
+	physicsComponent = nullptr;
+}
 
-// GameObject::~GameObject() = default;
-
-void GameObject::addComponent(Component * component)
+void GameObject::addComponent(Component *component)
 {
 	component->setGameObject(this);
 	components.push_back(component);
@@ -21,7 +22,7 @@ void GameObject::addComponent(Component * component)
 		physicsComponent = dynamic_cast<PhysicsComponent *>(component);
 }
 
-std::list<Component*> GameObject::getComponents()
+std::list<Component *> GameObject::getComponents()
 {
 	return components;
 }

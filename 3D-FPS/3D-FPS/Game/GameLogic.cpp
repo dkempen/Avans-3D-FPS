@@ -17,10 +17,8 @@ void GameLogic::initGame()
 
 	// Create player object
 	player = new GameObject();
-	player->addComponent(new PlayerComponent());
+	player->addComponent(new PlayerComponent(*player));
 	player->addComponent(new CollisionComponent());
-	player->position = Vec3f(0, 0, 0);
-	player->rotation.z = 180;
 	objects.push_back(player);
 
 	// Create cube in the center of the world
@@ -44,7 +42,7 @@ void GameLogic::initGame()
 
 	// Create super small cube
 	o = new GameObject();
-	o->addComponent(new CubeComponent(0.2));
+	o->addComponent(new CubeComponent(0.2f));
 	o->position = Vec3f(2, 2, 2);
 	objects.push_back(o);
 }
