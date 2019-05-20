@@ -26,8 +26,8 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	BoundingBox temp;
 	
 	// Floor Y bounding box
-	temp.min = { -10.0f, -1.0f, -10.0f };
-	temp.max = { 10.0f, 0.0f, 10.0f };
+	temp.min = { -5.0f, -1.0f, -5.0f };
+	temp.max = { 6.0f, 0.0f, 6.0f };
 	calculateOffsetY(absolute, temp, dy);
 
 	for (auto xx = -1; xx <= 1; ++xx)

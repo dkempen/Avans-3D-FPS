@@ -145,6 +145,9 @@
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="Components\Physics\PhysicsComponent.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Game\world.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
