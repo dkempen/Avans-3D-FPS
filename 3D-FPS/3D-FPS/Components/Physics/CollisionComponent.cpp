@@ -12,7 +12,7 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	gameObject->velocity.y -= 20.0f * elapsedTime;
 	if (gameObject->position.y < -100.0f)
 	{
-		gameObject->position = { 0, 0, 0 };
+		gameObject->position = { 5, 0, 5 };
 		gameObject->velocity = { 0, 0, 0 };
 	}
 
@@ -26,8 +26,8 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	BoundingBox temp;
 	
 	// Floor Y bounding box
-	temp.min = { -5.0f, -1.0f, -5.0f };
-	temp.max = { 6.0f, 0.0f, 6.0f };
+	temp.min = { 0, -1.0f, 0 };
+	temp.max = { 10.0f, 0.0f, 10.0f };
 	calculateOffsetY(absolute, temp, dy);
 
 	for (auto xx = -1; xx <= 1; ++xx)
@@ -73,7 +73,7 @@ void CollisionComponent::calculateOffsetX(BoundingBox &box, BoundingBox &other, 
 		if (difference > dx)
 		{
 			gameObject->velocity.x = 0;
-			dx = difference;
+			dx = difference + 0.0000001f;
 		}
 	}
 }
@@ -104,7 +104,7 @@ void CollisionComponent::calculateOffsetY(BoundingBox &box, BoundingBox &other, 
 		if (difference > dy)
 		{
 			gameObject->velocity.y = 0;
-			dy = difference;
+			dy = difference + 0.0000001f;
 		}
 	}
 }
@@ -135,7 +135,7 @@ void CollisionComponent::calculateOffsetZ(BoundingBox &box, BoundingBox &other, 
 		if (difference > dz)
 		{
 			gameObject->velocity.z = 0;
-			dz = difference;
+			dz = difference + 0.0000001f;
 		}
 	}
 }
