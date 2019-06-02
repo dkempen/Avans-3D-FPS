@@ -82,13 +82,14 @@ void onDisplay()
 	glLoadIdentity();
 
 	// Set camera position
-	glRotatef(gameLogic.player->rotation.x, 1, 0, 0);
-	glRotatef(gameLogic.player->rotation.y, 0, 1, 0);
-	glRotatef(gameLogic.player->rotation.z, 0, 0, 1);
+	auto player = gameLogic.getPlayer();
+	glRotatef(player->rotation.x, 1, 0, 0);
+	glRotatef(player->rotation.y, 0, 1, 0);
+	glRotatef(player->rotation.z, 0, 0, 1);
 	glTranslatef(
-		gameLogic.player->position.x,
-		gameLogic.player->position.y + gameLogic.player->getComponent<PlayerComponent>()->headHeight,
-		gameLogic.player->position.z);
+		player->position.x,
+		player->position.y + player->getComponent<PlayerComponent>()->headHeight,
+		player->position.z);
 
 	// Draw stuff
 	gameLogic.draw();
@@ -101,17 +102,18 @@ void onDisplay()
 void displayText()
 {
 	// Create a string that displays the fps, current camera location and rotation
+	auto player = gameLogic.getPlayer();
 	std::stringstream ss;
 	ss << std::fixed << std::setprecision(5) <<
 		"fps " + std::to_string(int(1 / deltaTime)) <<
-		"\npx " + std::to_string(gameLogic.player->position.x) <<
-		"\npy " + std::to_string(gameLogic.player->position.y) <<
-		"\npz " + std::to_string(gameLogic.player->position.z) <<
-		"\n\nrx "+std::to_string(gameLogic.player->rotation.x) <<
-		"\nry " + std::to_string(gameLogic.player->rotation.y) <<
-		"\n\nvx "+std::to_string(gameLogic.player->velocity.x) <<
-		"\nvy " + std::to_string(gameLogic.player->velocity.y) <<
-		"\nvz " + std::to_string(gameLogic.player->velocity.z);
+		"\npx " + std::to_string(player->position.x) <<
+		"\npy " + std::to_string(player->position.y) <<
+		"\npz " + std::to_string(player->position.z) <<
+		"\n\nrx "+std::to_string(player->rotation.x) <<
+		"\nry " + std::to_string(player->rotation.y) <<
+		"\n\nvx "+std::to_string(player->velocity.x) <<
+		"\nvy " + std::to_string(player->velocity.y) <<
+		"\nvz " + std::to_string(player->velocity.z);
 	auto text = ss.str();
 
 	const auto xPos = 20;

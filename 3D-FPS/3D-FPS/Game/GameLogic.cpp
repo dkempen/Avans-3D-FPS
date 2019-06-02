@@ -5,13 +5,6 @@
 
 GameLogic::GameLogic()
 {
-	initGame();
-}
-
-GameLogic::~GameLogic() = default;
-
-void GameLogic::initGame()
-{
 	// Init world
 	world = new World(objects);
 
@@ -33,6 +26,9 @@ void GameLogic::initGame()
 	objects.push_back(o);
 }
 
+GameLogic::~GameLogic() = default;
+
+
 void GameLogic::draw()
 {
 	for (auto &o : objects)
@@ -43,4 +39,9 @@ void GameLogic::update(float deltaTime)
 {
 	for (auto &o : objects)
 		o->update(*world, deltaTime);
+}
+
+GameObject *GameLogic::getPlayer() const
+{
+	return player;
 }

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include "../Components/Draw/TextureComponent.h"
 
 World::World(std::vector<GameObject*> &objects)
 {
@@ -57,15 +58,15 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	switch (type)
 	{
 	case 1:
-		block->addComponent(new CubeComponent(1));
+		block->addComponent(new TextureComponent(1));
 		break;
 	case 2:
-		block->addComponent(new CubeComponent(1));
-		block->scale = { 1, 3, 1 };
+		block->addComponent(new TextureComponent(1));
+		block->scale = { 1, 2, 1 };
 		break;
 	default:;
 	}
-	block->position = { x + 0.5f, 0.5f, z + 0.5f };
+	block->position = { x + 0.0f, 0.0f, z + 0.0f };
 	objects.push_back(block);
 }
 

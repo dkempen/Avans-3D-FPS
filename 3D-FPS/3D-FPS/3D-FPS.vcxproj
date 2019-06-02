@@ -130,6 +130,8 @@
     <ClCompile Include="Components\Control\PlayerComponent.cpp" />
     <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="Components\Physics\PhysicsComponent.cpp" />
+    <ClCompile Include="Components\Draw\TextureComponent.cpp" />
+    <ClCompile Include="Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\BoundingBox.h" />
@@ -144,9 +146,15 @@
     <ClInclude Include="Components\Control\PlayerComponent.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="Components\Physics\PhysicsComponent.h" />
+    <ClInclude Include="Components\Draw\TextureComponent.h" />
+    <ClInclude Include="Texture\stb_image.h" />
+    <ClInclude Include="Texture\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game\world.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\textures.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
