@@ -1,5 +1,4 @@
 #include "World.h"
-#include "../Components/Draw/CubeComponent.h"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -58,10 +57,10 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	switch (type)
 	{
 	case 1:
-		block->addComponent(new TextureComponent(1));
+		block->addComponent(new TextureComponent(TextureComponent::BlockType::CRATE));
 		break;
 	case 2:
-		block->addComponent(new TextureComponent(1));
+		block->addComponent(new TextureComponent(TextureComponent::BlockType::WALL));
 		block->scale = { 1, 2, 1 };
 		break;
 	default:;
@@ -70,9 +69,24 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	objects.push_back(block);
 }
 
-bool World::isWall(const int x, const int z)
+float World::getBlockHeight(const int x, const int z)
 {
 	if (x < 0 || z < 0 || x >= WORLD_SIZE || z >= WORLD_SIZE)
-		return false;
-	return blocks[x][z];
+		return 0.0f;
+
+	// TODO: Move block to separate class
+	float blockHeight;
+	switch (blocks[x][z])
+	{
+	case 1:
+		blockHeight = 1;
+		break;
+	case 2:
+		blockHeight = 2;
+		break;
+	default:
+		blockHeight = 0;
+		break;
+	}
+	return blockHeight;
 }

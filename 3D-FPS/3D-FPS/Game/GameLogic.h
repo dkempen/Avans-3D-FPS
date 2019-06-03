@@ -8,8 +8,6 @@ class GameLogic
 	World *world;
 	std::vector<GameObject *> objects;
 	GameObject *player;
-
-	// TextureManager textureManager;
 public:
 	GameLogic();
 	~GameLogic();

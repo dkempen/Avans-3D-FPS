@@ -4,10 +4,14 @@
 
 class TextureComponent : public DrawComponent
 {
-	float size;
 public:
-	TextureComponent(float size);
+	enum class BlockType { CRATE, WALL };
+
+	TextureComponent(BlockType block);
 	~TextureComponent();
 
 	void draw() override;
+private:
+	BlockType block;
+	float size;
 };

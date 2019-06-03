@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 
 	glutWarpPointer(width / 2, height / 2);
 	initGL();
+	TextureManager::getInstance(); // Init textures
 	glutMainLoop();
 }
 

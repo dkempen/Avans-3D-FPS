@@ -14,5 +14,6 @@ public:
 	World(std::vector<GameObject *> &objects);
 	~World() = default;
 
-	bool isWall(int x, int z);
+	float getBlockHeight(int x, int z);
+
 };
