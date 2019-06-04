@@ -57,7 +57,13 @@
     <ClCompile Include="Components\Draw\TextureComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\TextureManager.cpp">
+    <ClCompile Include="Game\Block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +107,16 @@
     <ClInclude Include="Components\Draw\TextureComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\TextureManager.h">
+    <ClInclude Include="Game\Block.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\stb_image.h">
+    <ClInclude Include="Data\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Extern\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

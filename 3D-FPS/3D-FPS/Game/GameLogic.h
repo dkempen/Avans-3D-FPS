@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "World.h"
-#include "../Texture/TextureManager.h"
 
 class GameLogic
 {

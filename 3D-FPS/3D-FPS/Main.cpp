@@ -8,6 +8,7 @@
 #include "Components/Control/PlayerComponent.h"
 #include <sstream>
 #include <iomanip>
+#include "DataManager.h"
 
 // Window, keys and mouse
 int width = 1280;
@@ -26,7 +27,7 @@ GameLogic gameLogic;
 
 // Function declarations
 void initGL();
-void initGame();
+void initData();
 
 void onIdle();
 void onDisplay();
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
 
 	glutWarpPointer(width / 2, height / 2);
 	initGL();
-	TextureManager::getInstance(); // Init textures
+	initData();
 	glutMainLoop();
 }
 
@@ -71,6 +72,11 @@ void initGL()
 	glClearColor(0.0f, 0.6f, 0.8f, 1.0f);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	reinterpret_cast<BOOL(WINAPI*)(int)>(wglGetProcAddress("wglSwapIntervalEXT"))(0);
+}
+
+void initData()
+{
+	DataManager::getInstance().textureManager.initBlockTextures(DataManager::getInstance().blocks);
 }
 
 void onDisplay()

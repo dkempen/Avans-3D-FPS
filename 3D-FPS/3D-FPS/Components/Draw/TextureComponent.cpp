@@ -1,8 +1,9 @@
 #include "TextureComponent.h"
 #include <GL/freeglut.h>
-#include "../../Texture/TextureManager.h"
+#include "../../Data/TextureManager.h"
+#include "../../DataManager.h"
 
-TextureComponent::TextureComponent(const BlockType block)
+TextureComponent::TextureComponent(const Block::BlockType block)
 : block(block), size(1)
 {
 }
@@ -12,9 +13,9 @@ TextureComponent::~TextureComponent() = default;
 void TextureComponent::draw()
 {
 	float x1, y1, x2, y2;
-	TextureManager::getInstance().getBlockCoords(block, x1, y1, x2, y2);
+	DataManager::getInstance().getBlockCoords(block, x1, y1, x2, y2);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, TextureManager::getInstance().getTextureId());
+	glBindTexture(GL_TEXTURE_2D, DataManager::getInstance().textureManager.getTextureId());
 	glBegin(GL_QUADS);
 	glColor3f(1, 1, 1);
 

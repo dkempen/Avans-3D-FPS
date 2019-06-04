@@ -1,17 +1,16 @@
 #pragma once
 
 #include "DrawComponent.h"
+#include "../../Game/Block.h"
 
 class TextureComponent : public DrawComponent
 {
 public:
-	enum class BlockType { FLOOR, CRATE, WALL };
-
-	TextureComponent(BlockType block);
+	TextureComponent(Block::BlockType block);
 	~TextureComponent();
 
 	void draw() override;
 private:
-	BlockType block;
+	Block::BlockType block;
 	float size;
 };

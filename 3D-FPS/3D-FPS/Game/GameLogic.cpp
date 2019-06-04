@@ -1,6 +1,5 @@
 #include "GameLogic.h"
 #include "../Components/Control/PlayerComponent.h"
-#include "../Components/Draw/CubeComponent.h"
 #include "../Components/Physics/CollisionComponent.h"
 
 GameLogic::GameLogic()
