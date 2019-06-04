@@ -50,8 +50,13 @@ void PlayerComponent::update(float elapsedTime)
 	gameObject->velocity.z *= 1 - 20.0f * elapsedTime;
 	gameObject->velocity.maxXZ(WALK_SPEED);
 
-	if (keys[int(' ')] && gameObject->velocity.y == 0)
+	if (!previousPositiveY && keys[int(' ')] && gameObject->velocity.y == 0)
+	{
+		previousPositiveY = true;
 		gameObject->velocity.y = 8;
+	}
+	if (previousPositiveY && gameObject->velocity.y < 0.0f)
+		previousPositiveY = false;
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;

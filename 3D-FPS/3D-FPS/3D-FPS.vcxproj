@@ -117,7 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Data\DataManager.cpp" />
     <ClCompile Include="Game\Block.cpp" />
     <ClCompile Include="Math\BoundingBox.cpp" />
     <ClCompile Include="Components\Physics\CollisionComponent.cpp" />
@@ -136,7 +136,7 @@
     <ClCompile Include="Data\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Data\DataManager.h" />
     <ClInclude Include="Game\Block.h" />
     <ClInclude Include="Math\BoundingBox.h" />
     <ClInclude Include="Components\Physics\CollisionComponent.h" />

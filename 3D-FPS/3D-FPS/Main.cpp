@@ -8,7 +8,7 @@
 #include "Components/Control/PlayerComponent.h"
 #include <sstream>
 #include <iomanip>
-#include "DataManager.h"
+#include "Data/DataManager.h"
 
 // Window, keys and mouse
 int width = 1280;

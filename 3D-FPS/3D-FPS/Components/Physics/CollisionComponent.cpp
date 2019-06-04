@@ -10,7 +10,7 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	BoundingBox absolute = gameObject->boundingBox.getAbsoluteBox(gameObject->position);
 
 	gameObject->velocity.y -= 20.0f * elapsedTime;
-	if (gameObject->position.y < -100.0f)
+	if (gameObject->position.y < -10.0f)
 	{
 		gameObject->position = { 5, 0, 5 };
 		gameObject->velocity = { 0, 0, 0 };
@@ -24,7 +24,13 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 	const auto z = int(gameObject->position.z + dz);
 
 	BoundingBox temp;
-	
+
+	// TODO: Simplify ceiling and floor logic
+	// Ceiling Y bounding box
+	temp.min = { 0.0f, 4.0f, 0.0f };
+	temp.max = { 10.0f, 5.0f, 10.0f };
+	calculateOffsetY(absolute, temp, dy);
+
 	for (auto xx = -1; xx <= 1; ++xx)
 		for (auto zz = -1; zz <= 1; ++zz)
 		{

@@ -16,7 +16,7 @@ public:
 	Vec3f posOffset;
 	Vec3f size;
 
-	enum class BlockType { FLOOR, CRATE, WALL };
+	enum class BlockType { FLOOR, CRATE, HIGH_CRATE, WALL, CEILING, NONE };
 
 	Block();
 };

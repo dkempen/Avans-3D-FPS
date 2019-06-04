@@ -7,6 +7,7 @@ class PlayerComponent : public ControlComponent
 {
 	const float WALK_SPEED = 4.3f;
 	const float ACCELERATION = 1.0f;
+	bool previousPositiveY;
 
 	Vec3f convertHeading(float strafe, float forward, float multiplier) const;
 public:

@@ -63,7 +63,7 @@
     <ClCompile Include="Data\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
+    <ClCompile Include="Data\DataManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,10 +113,10 @@
     <ClInclude Include="Data\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataManager.h">
+    <ClInclude Include="Extern\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Extern\stb_image.h">
+    <ClInclude Include="Data\DataManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

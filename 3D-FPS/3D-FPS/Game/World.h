@@ -10,8 +10,8 @@ class World
 
 	void initWorld(std::vector<GameObject *> &objects);
 	void readFile();
-	void setBlock(std::vector<GameObject *> &objects, int x, int y) const;
-	static Block::BlockType convertToBlockType(int number);
+	void setBlock(std::vector<GameObject *> &objects, int x, int y, Block::BlockType type) const;
+	static Block::BlockType intToBlockType(int number);
 public:
 	World(std::vector<GameObject *> &objects);
 	~World() = default;

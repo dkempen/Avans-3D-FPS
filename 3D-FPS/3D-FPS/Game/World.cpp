@@ -1,9 +1,8 @@
 #include "World.h"
 #include <fstream>
 #include <string>
-#include <iostream>
 #include "../Components/Draw/TextureComponent.h"
-#include "../DataManager.h"
+#include "../Data/DataManager.h"
 
 World::World(std::vector<GameObject*> &objects)
 {
@@ -18,7 +17,13 @@ void World::initWorld(std::vector<GameObject*> &objects)
 
 	for (auto x = 0; x < WORLD_SIZE; ++x)
 		for (auto z = 0; z < WORLD_SIZE; ++z)
-			setBlock(objects, x, z);
+		{
+			// Block
+			setBlock(objects, x, z, Block::BlockType::NONE);
+			// TODO: Simplify ceiling and floor logic
+			// Ceiling
+			setBlock(objects, x, z, Block::BlockType::CEILING);
+		}
 }
 
 void World::readFile()
@@ -31,31 +36,20 @@ void World::readFile()
 	auto x = 0, z = 0;
 	while (getline(file, line))
 	{
-		z = 0;
-		std::cout << line << std::endl;
 		for (auto c : line)
-		{
-			switch (c)
-			{
-			case '1':
-				worldBlocks[x][z] = 1;
-				break;
-			case '2':
-				worldBlocks[x][z] = 2;
-				break;
-			default:;
-			}
-			z++;
-		}
+			worldBlocks[x][z++] = c - '0';
+		z = 0;
 		x++;
 	}
 	file.close();
 }
 
-void World::setBlock(std::vector<GameObject *> &objects, const int x, const int z) const
+void World::setBlock(std::vector<GameObject *> &objects, const int x, const int z, Block::BlockType blockType) const
 {
+	if (blockType == Block::BlockType::NONE)
+		blockType = intToBlockType(worldBlocks[x][z]);
+
 	auto block = new GameObject();
-	const auto blockType = convertToBlockType(worldBlocks[x][z]);
 
 	auto blocks = DataManager::getInstance().blocks;
 	const auto posOffset = blocks[blockType].posOffset;
@@ -73,25 +67,11 @@ float World::getBlockHeight(const int x, const int z)
 	if (x < 0 || z < 0 || x >= WORLD_SIZE || z >= WORLD_SIZE)
 		return -1;
 
-	const auto block = DataManager::getInstance().blocks[convertToBlockType(worldBlocks[x][z])];
+	const auto block = DataManager::getInstance().blocks[intToBlockType(worldBlocks[x][z])];
 	return block.size.y + block.posOffset.y;
 }
 
-Block::BlockType World::convertToBlockType(const int number)
+Block::BlockType World::intToBlockType(const int number)
 {
-	Block::BlockType blockType = {};
-	switch (number)
-	{
-	case 0:
-		blockType = Block::BlockType::FLOOR;
-		break;
-	case 1:
-		blockType = Block::BlockType::CRATE;
-		break;
-	case 2:
-		blockType = Block::BlockType::WALL;
-		break;
-	default:;
-	}
-	return blockType;
+	return static_cast<Block::BlockType>(number);
 }

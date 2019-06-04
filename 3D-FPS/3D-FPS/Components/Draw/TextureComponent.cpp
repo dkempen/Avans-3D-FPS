@@ -1,7 +1,7 @@
 #include "TextureComponent.h"
 #include <GL/freeglut.h>
 #include "../../Data/TextureManager.h"
-#include "../../DataManager.h"
+#include "../../Data/DataManager.h"
 
 TextureComponent::TextureComponent(const Block::BlockType block)
 : block(block), size(1)
