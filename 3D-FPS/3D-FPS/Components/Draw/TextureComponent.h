@@ -5,7 +5,7 @@
 class TextureComponent : public DrawComponent
 {
 public:
-	enum class BlockType { CRATE, WALL };
+	enum class BlockType { FLOOR, CRATE, WALL };
 
 	TextureComponent(BlockType block);
 	~TextureComponent();

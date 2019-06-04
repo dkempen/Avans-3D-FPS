@@ -25,16 +25,11 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 
 	BoundingBox temp;
 	
-	// Floor Y bounding box
-	temp.min = { 0, -1.0f, 0 };
-	temp.max = { 10.0f, 0.0f, 10.0f };
-	calculateOffsetY(absolute, temp, dy);
-
 	for (auto xx = -1; xx <= 1; ++xx)
 		for (auto zz = -1; zz <= 1; ++zz)
 		{
 			const auto blockHeight = world.getBlockHeight(x + xx, z + zz);
-			if (blockHeight > 0.0f)
+			if (blockHeight >= 0.0f)
 			{
 				temp.min = { x + xx + 0.0f, 0.0f, z + zz + 0.0f };
 				temp.max = { x + xx + 1.0f, blockHeight, z + zz + 1.0f };

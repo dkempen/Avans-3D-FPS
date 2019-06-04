@@ -15,15 +15,6 @@ GameLogic::GameLogic()
 	player->addComponent(new PlayerComponent(*player));
 	player->addComponent(new CollisionComponent());
 	objects.push_back(player);
-
-	// Create a plane
-	auto o = new GameObject();
-	o->addComponent(new CubeComponent(1));
-	o->position.y = -0.5;
-	o->position.x = 5;
-	o->position.z = 5;
-	o->scale = Vec3f(10, 1, 10);
-	objects.push_back(o);
 }
 
 GameLogic::~GameLogic() = default;

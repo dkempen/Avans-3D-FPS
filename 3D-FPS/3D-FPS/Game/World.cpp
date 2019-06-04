@@ -56,6 +56,10 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	auto block = new GameObject();
 	switch (type)
 	{
+	case 0:
+		block->addComponent(new TextureComponent(TextureComponent::BlockType::FLOOR));
+		block->position = { 0.0f, -1.0f, 0.0f };
+		break;
 	case 1:
 		block->addComponent(new TextureComponent(TextureComponent::BlockType::CRATE));
 		break;
@@ -65,19 +69,25 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 		break;
 	default:;
 	}
-	block->position = { x + 0.0f, 0.0f, z + 0.0f };
+	block->position = { 
+		block->position.x + x + 0.0f,
+		block->position.y + 0.0f,
+		block->position.z + z + 0.0f };
 	objects.push_back(block);
 }
 
 float World::getBlockHeight(const int x, const int z)
 {
 	if (x < 0 || z < 0 || x >= WORLD_SIZE || z >= WORLD_SIZE)
-		return 0.0f;
+		return -1;
 
 	// TODO: Move block to separate class
 	float blockHeight;
 	switch (blocks[x][z])
 	{
+	case 0:
+		blockHeight = 0;
+		break;
 	case 1:
 		blockHeight = 1;
 		break;
@@ -85,7 +95,7 @@ float World::getBlockHeight(const int x, const int z)
 		blockHeight = 2;
 		break;
 	default:
-		blockHeight = 0;
+		blockHeight = -1;
 		break;
 	}
 	return blockHeight;

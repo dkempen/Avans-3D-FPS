@@ -7,6 +7,7 @@ TextureManager::TextureManager()
 : textureId(0), atlas("Resources/textures.png")
 {
 	loadTexture();
+	blocks[TextureComponent::BlockType::FLOOR] = getTileCoords(TextureComponent::BlockType::FLOOR, 153, 1, 1);
 	blocks[TextureComponent::BlockType::CRATE] = getTileCoords(TextureComponent::BlockType::CRATE, 4, 1, 1);
 	blocks[TextureComponent::BlockType::WALL] = getTileCoords(TextureComponent::BlockType::WALL, 0, 1, 2);
 }
