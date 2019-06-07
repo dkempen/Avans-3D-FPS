@@ -9,7 +9,7 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 {
 	BoundingBox absolute = gameObject->boundingBox.getAbsoluteBox(gameObject->position);
 
-	gameObject->velocity.y -= 20.0f * elapsedTime;
+	gameObject->velocity.y -= 25.0f * elapsedTime;
 	if (gameObject->position.y < -10.0f)
 	{
 		gameObject->position = { 5, 0, 5 };

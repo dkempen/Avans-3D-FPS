@@ -2,11 +2,8 @@
 #include <GL/freeglut.h>
 
 GameObject::GameObject()
+	: scale(1, 1, 1)
 {
-	scale = { 1, 1, 1 };
-	drawComponent = nullptr;
-	controlComponent = nullptr;
-	physicsComponent = nullptr;
 }
 
 void GameObject::addComponent(Component *component)
@@ -14,39 +11,38 @@ void GameObject::addComponent(Component *component)
 	component->setGameObject(this);
 	components.push_back(component);
 
-	if (!drawComponent)
-		drawComponent = dynamic_cast<DrawComponent *>(component);
-	if (!controlComponent)
-		controlComponent = dynamic_cast<ControlComponent *>(component);
-	if (!physicsComponent)
-		physicsComponent = dynamic_cast<PhysicsComponent *>(component);
+	if (dynamic_cast<DrawComponent *>(component))
+		drawComponents.emplace_back(dynamic_cast<DrawComponent *>(component));
+	if (dynamic_cast<ControlComponent *>(component))
+		controlComponents.emplace_back(dynamic_cast<ControlComponent *>(component));
+	if (dynamic_cast<PhysicsComponent *>(component))
+		physicsComponents.emplace_back(dynamic_cast<PhysicsComponent *>(component));
 }
 
-std::list<Component *> GameObject::getComponents()
+std::list<Component *> GameObject::getComponents() const
 {
 	return components;
 }
 
-
-void GameObject::draw()
+void GameObject::draw() const
 {
-	if (!drawComponent)
-		return;
-
-	glPushMatrix();
-	glRotatef(rotation.x, 1, 0, 0);
-	glRotatef(rotation.y, 0, 1, 0);
-	glRotatef(rotation.z, 0, 0, 1);
-	glTranslatef(-position.x, -position.y, -position.z);
-	glScalef(scale.x, scale.y, scale.z);
-	drawComponent->draw();
-	glPopMatrix();
+	for (auto component : drawComponents)
+	{
+		glPushMatrix();
+		glTranslatef(-position.x, -position.y, -position.z);
+		glScalef(scale.x, scale.y, scale.z);
+		glRotatef(-rotation.z, 0, 0, 1);
+		glRotatef(-rotation.y, 0, 1, 0);
+		glRotatef(-rotation.x, 1, 0, 0);
+		component->draw();
+		glPopMatrix();
+	}
 }
 
-void GameObject::update(World &world, float elapsedTime)
+void GameObject::update(World &world, const float elapsedTime) const
 {
-	if (controlComponent) controlComponent->update(elapsedTime);
-	if (physicsComponent) physicsComponent->update(world, elapsedTime);
-	// for (auto &c : components)
-	// 	c->update(elapsedTime);
+	for (auto component : controlComponents)
+		component->update(elapsedTime);
+	for (auto component : physicsComponents)
+		component->update(world, elapsedTime);
 }

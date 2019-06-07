@@ -1,6 +1,7 @@
 #include "GameLogic.h"
 #include "../Components/Control/PlayerComponent.h"
 #include "../Components/Physics/CollisionComponent.h"
+#include "../Components/Draw/TextureComponent.h"
 
 GameLogic::GameLogic()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "TextureManager.h"
+#include "../Game/GameLogic.h"
 
 class DataManager
 {

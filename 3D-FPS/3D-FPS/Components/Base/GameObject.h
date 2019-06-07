@@ -14,9 +14,9 @@ class World;
 
 class GameObject
 {
-	DrawComponent *drawComponent;
-	ControlComponent *controlComponent;
-	PhysicsComponent *physicsComponent;
+	std::vector<DrawComponent *>drawComponents;
+	std::vector<ControlComponent *>controlComponents;
+	std::vector<PhysicsComponent *>physicsComponents;
 
 	std::list<Component *> components;
 public:
@@ -32,9 +32,9 @@ public:
 	~GameObject() = default;
 
 	void addComponent(Component *component);
-	std::list<Component *> getComponents();
-	void update(World &world, float elapsedTime);
-	void draw();
+	std::list<Component *> getComponents() const;
+	void update(World &world, float elapsedTime) const;
+	void draw() const;
 
 	template<class T>
 	T* getComponent()

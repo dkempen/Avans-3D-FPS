@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <chrono>
-#include "Game/GameLogic.h"
 #include "Math/Vec.h"
 #include "Components/Control/PlayerComponent.h"
 #include <sstream>
@@ -15,6 +14,7 @@ int width = 1280;
 int height = 720;
 
 bool keys[255];
+bool leftMouse;
 Vec2f cursorOffset;
 bool justMovedMouse = false;
 
@@ -36,6 +36,7 @@ void onKey(unsigned char keyId, int x, int y);
 void onKeyUp(unsigned char keyId, int x, int y);
 void onMotion(int x, int y);
 void onMousePassiveMotion(int x, int y);
+void onMouse(int button, int state, int x, int y);
 void onReshape(int w, int h);
 
 void displayText();
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
 	glutKeyboardUpFunc(onKeyUp);
 	glutPassiveMotionFunc(onMousePassiveMotion);
 	glutMotionFunc(onMotion);
+	glutMouseFunc(onMouse);
 
 	glutWarpPointer(width / 2, height / 2);
 	initGL();
@@ -194,6 +196,12 @@ void onMousePassiveMotion(int x, int y)
 	}
 	else
 		justMovedMouse = false;
+}
+
+void onMouse(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+		leftMouse = true;
 }
 
 void onReshape(int w, int h)

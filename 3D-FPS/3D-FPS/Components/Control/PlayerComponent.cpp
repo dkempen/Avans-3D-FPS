@@ -3,8 +3,11 @@
 #include "../../Math/Vec.h"
 #include "../Base/GameObject.h"
 #include <algorithm>
+#include "../../Data/DataManager.h"
+#include <iostream>
 
 extern bool keys[256];
+extern bool leftMouse;
 extern Vec2f cursorOffset;
 
 PlayerComponent::PlayerComponent(GameObject &player)
@@ -57,6 +60,13 @@ void PlayerComponent::update(float elapsedTime)
 	}
 	if (previousPositiveY && gameObject->velocity.y < 0.0f)
 		previousPositiveY = false;
+
+	// Spawn bullets
+	if (leftMouse)
+	{
+		leftMouse = false;
+		// DataManager::getInstance().gameLogic.spawnBullet(gameObject);
+	}
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;

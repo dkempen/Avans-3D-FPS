@@ -14,7 +14,7 @@ void TextureManager::initBlockTextures(std::map<Block::BlockType, Block> &blocks
 	getTileCoords(blocks[Block::BlockType::FLOOR], 153, 1, 1);
 	getTileCoords(blocks[Block::BlockType::CRATE], 4, 1, 1);
 	getTileCoords(blocks[Block::BlockType::HIGH_CRATE], 192, 1, 2);
-	getTileCoords(blocks[Block::BlockType::WALL], 162, 1, 4);
+	getTileCoords(blocks[Block::BlockType::WALL], 0, 1, 4);
 	getTileCoords(blocks[Block::BlockType::CEILING], 6, 1, 1);
 }
 
