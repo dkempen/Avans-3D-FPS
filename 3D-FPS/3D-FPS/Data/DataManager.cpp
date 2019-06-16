@@ -1,8 +1,11 @@
 #include "DataManager.h"
+#include "../Util/ObjectLoader.h"
+#include "../Util/TextureLoader.h"
 
 DataManager::DataManager()
 {
 	initBlocks();
+	initModels();
 }
 
 void DataManager::initBlocks()
@@ -28,4 +31,26 @@ void DataManager::getBlockCoords(const Block::BlockType block, float& x1, float&
 	y1 = b.y1;
 	x2 = b.x2;
 	y2 = b.y2;
+}
+
+void DataManager::initModels()
+{
+	//To prevent the map from throwing an exception
+	meshes["none"] = {};
+	textures["none"] = -1;
+
+	// textures["atlas"] = TextureLoader::addTexture(textureManager.atlas, textures.size());
+
+	textures["packet"] = TextureLoader::addTexture("Resources/Pakketje/Pakketje.png", textures.size());
+	meshes["packet"] = ObjLoader::loadObj("Resources/Pakketje/Pakketje.obj");
+}
+
+Graphics::Mesh DataManager::getMesh(const std::string& mesh)
+{
+	return meshes[mesh];
+}
+
+uint16_t DataManager::getTexture(const std::string& texture)
+{
+	return textures[texture];
 }

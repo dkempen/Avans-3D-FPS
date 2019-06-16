@@ -21,7 +21,9 @@ public:
 	Vec3f &operator += (const Vec3f &other);
 	Vec3f &operator *= (const float& other);
 
-	Vec3f normalized() const;
+	Vec3f normalize() const;
+	static Vec3f crossProduct(const Vec3f &v1, const Vec3f &v2);
+	Vec3f inverse() const;
 	float length() const;
 	void maxXZ(float maxLength);
 };
@@ -39,6 +41,6 @@ public:
 	};
 	Vec2f();
 	Vec2f(float x, float y);
-	Vec2f(Vec2f &other);
+	Vec2f(const Vec2f &other);
 	float& operator [](int);
 };

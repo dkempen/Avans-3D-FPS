@@ -1,6 +1,7 @@
 #pragma once
 #include "TextureManager.h"
 #include "../Game/GameLogic.h"
+#include "../Math/Graphics.h"
 
 class DataManager
 {
@@ -12,6 +13,10 @@ public:
 	// Data members
 	TextureManager textureManager;
 	std::map<Block::BlockType, Block> blocks;
+
+	// Storage for all game meshes and textures
+	std::map<std::string, Graphics::Mesh> meshes;
+	std::map<std::string, uint16_t> textures;
 
 	// Returns the singleton of this data class
 	static DataManager &getInstance()
@@ -25,4 +30,7 @@ public:
 	void operator=(DataManager const &) = delete;
 
 	void getBlockCoords(Block::BlockType block, float& x1, float& y1, float& x2, float& y2);
+	void initModels();
+	Graphics::Mesh getMesh(const std::string& mesh);
+	uint16_t getTexture(const std::string& texture);
 };

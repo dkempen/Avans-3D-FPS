@@ -51,10 +51,28 @@ Vec3f Vec3f::operator*(const float& other) const
 	return Vec3f(x * other, y * other, z * other);
 }
 
-Vec3f Vec3f::normalized() const
+Vec3f Vec3f::normalize() const
 {
 	const auto len = length();
 	return Vec3f(x / len, y / len, z / len);
+}
+
+Vec3f Vec3f::crossProduct(const Vec3f &v1, const Vec3f &v2)
+{
+	Vec3f newVec;
+	newVec.x = v1.y*v2.z - v1.z*v2.y;
+	newVec.y = v1.z*v2.x - v1.x*v2.z;
+	newVec.z = v1.x*v2.y - v1.y*v2.x;
+	return newVec;
+}
+
+Vec3f Vec3f::inverse() const
+{
+	Vec3f invVec;
+	invVec.x = x * -1;
+	invVec.y = y * -1;
+	invVec.z = z * -1;
+	return invVec;
 }
 
 float Vec3f::length() const
@@ -85,7 +103,7 @@ Vec2f::Vec2f()
 	this->x = 0;
 	this->y = 0;
 }
-Vec2f::Vec2f(Vec2f &other)
+Vec2f::Vec2f(const Vec2f &other)
 {
 	this->x = other.x;
 	this->y = other.y;

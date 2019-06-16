@@ -2,6 +2,7 @@
 #include "../Components/Control/PlayerComponent.h"
 #include "../Components/Physics/CollisionComponent.h"
 #include "../Components/Draw/TextureComponent.h"
+#include "../Components/Draw/ModelComponent.h"
 
 GameLogic::GameLogic()
 {
@@ -15,6 +16,14 @@ GameLogic::GameLogic()
 	player->addComponent(new PlayerComponent(*player));
 	player->addComponent(new CollisionComponent());
 	objects.push_back(player);
+
+	// Create model test object
+	auto model = new GameObject();
+	model->position.x = 5;
+	model->position.z = 5;
+	model->position.y = 2;
+	model->addComponent(new ModelComponent("packet", "packet"));
+	objects.push_back(model);
 }
 
 GameLogic::~GameLogic() = default;
