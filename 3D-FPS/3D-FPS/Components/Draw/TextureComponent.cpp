@@ -1,10 +1,11 @@
 #include "TextureComponent.h"
 #include <GL/freeglut.h>
+#include <utility>
 #include "../../Data/TextureManager.h"
 #include "../../Data/DataManager.h"
 
-TextureComponent::TextureComponent(const Block::BlockType block)
-: block(block), size(1)
+TextureComponent::TextureComponent(const Block::BlockType block, std::string texture)
+	: block(block), size(1), texture(DataManager::getInstance().getTexture(texture))
 {
 }
 
@@ -15,7 +16,7 @@ void TextureComponent::draw()
 	float x1, y1, x2, y2;
 	DataManager::getInstance().getBlockCoords(block, x1, y1, x2, y2);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, DataManager::getInstance().textureManager.getTextureId());
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
 	glColor3f(1, 1, 1);
 

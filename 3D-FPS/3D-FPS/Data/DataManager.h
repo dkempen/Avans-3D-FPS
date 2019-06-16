@@ -9,6 +9,7 @@ class DataManager
 	DataManager();
 
 	void initBlocks();
+	void initModels();
 public:
 	// Data members
 	TextureManager textureManager;
@@ -29,8 +30,8 @@ public:
 	DataManager(DataManager const &) = delete;
 	void operator=(DataManager const &) = delete;
 
+	void init();
 	void getBlockCoords(Block::BlockType block, float& x1, float& y1, float& x2, float& y2);
-	void initModels();
 	Graphics::Mesh getMesh(const std::string& mesh);
 	uint16_t getTexture(const std::string& texture);
 };

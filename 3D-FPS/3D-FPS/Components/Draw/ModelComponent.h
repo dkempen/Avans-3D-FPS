@@ -1,12 +1,13 @@
 #pragma once
 
 #include "DrawComponent.h"
+#include "../../Math/Graphics.h"
 #include <string>
 
 class ModelComponent : public DrawComponent
 {
-	std::string mesh;
-	std::string texture;
+	Graphics::Mesh mesh;
+	uint16_t texture;
 public:
 	ModelComponent(const std::string& mesh, const std::string& texture);
 	~ModelComponent();

@@ -1,10 +1,11 @@
 #include "GameLogic.h"
 #include "../Components/Control/PlayerComponent.h"
 #include "../Components/Physics/CollisionComponent.h"
-#include "../Components/Draw/TextureComponent.h"
 #include "../Components/Draw/ModelComponent.h"
 
-GameLogic::GameLogic()
+GameLogic::GameLogic() = default;
+
+void GameLogic::init()
 {
 	// Init world
 	world = new World(objects);
@@ -27,7 +28,6 @@ GameLogic::GameLogic()
 }
 
 GameLogic::~GameLogic() = default;
-
 
 void GameLogic::draw()
 {

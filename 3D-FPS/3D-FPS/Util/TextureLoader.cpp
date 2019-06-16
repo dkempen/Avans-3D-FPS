@@ -3,16 +3,17 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../Extern/stb_image.h"
 
-uint16_t TextureLoader::addTexture(const std::string &image_path, const size_t &amount_of_textures)
+uint16_t TextureLoader::addTexture(const std::string &imagePath, const size_t &amountOfTextures)
 {
-	auto textureId = static_cast<GLuint>(amount_of_textures);
+	auto textureId = static_cast<GLuint>(amountOfTextures);
 
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	int width, height, nrChannels;
-	// stbi_set_flip_vertically_on_load(true);
-	const auto data = stbi_load(image_path.c_str(), &width, &height, &nrChannels, 4);
+	if (imagePath != "Resources/Atlas/atlas.png")
+		stbi_set_flip_vertically_on_load(true);
+	const auto data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 4);
 
 	glTexImage2D(GL_TEXTURE_2D,
 		0,

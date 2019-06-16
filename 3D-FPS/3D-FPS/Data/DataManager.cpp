@@ -2,10 +2,13 @@
 #include "../Util/ObjectLoader.h"
 #include "../Util/TextureLoader.h"
 
-DataManager::DataManager()
+DataManager::DataManager() = default;
+
+void DataManager::init()
 {
 	initBlocks();
 	initModels();
+	textureManager.initBlockTextures(blocks);
 }
 
 void DataManager::initBlocks()
@@ -35,14 +38,10 @@ void DataManager::getBlockCoords(const Block::BlockType block, float& x1, float&
 
 void DataManager::initModels()
 {
-	//To prevent the map from throwing an exception
-	meshes["none"] = {};
-	textures["none"] = -1;
+	textures["atlas"] = TextureLoader::addTexture("Resources/Atlas/atlas.png", textures.size());
 
-	// textures["atlas"] = TextureLoader::addTexture(textureManager.atlas, textures.size());
-
-	textures["packet"] = TextureLoader::addTexture("Resources/Pakketje/Pakketje.png", textures.size());
-	meshes["packet"] = ObjLoader::loadObj("Resources/Pakketje/Pakketje.obj");
+	textures["packet"] = TextureLoader::addTexture("Resources/Pakketje/pakketje.png", textures.size());
+	meshes["packet"] = ObjLoader::loadObj("Resources/Pakketje/pakketje.obj");
 }
 
 Graphics::Mesh DataManager::getMesh(const std::string& mesh)

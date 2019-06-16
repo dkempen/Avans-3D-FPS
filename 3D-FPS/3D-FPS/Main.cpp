@@ -78,7 +78,8 @@ void initGL()
 
 void initData()
 {
-	DataManager::getInstance().textureManager.initBlockTextures(DataManager::getInstance().blocks);
+	DataManager::getInstance().init();
+	gameLogic.init();
 }
 
 void onDisplay()

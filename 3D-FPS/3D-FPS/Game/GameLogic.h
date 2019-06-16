@@ -11,6 +11,7 @@ public:
 	GameLogic();
 	~GameLogic();
 
+	void init();
 	void draw();
 	void update(float deltaTime);
 

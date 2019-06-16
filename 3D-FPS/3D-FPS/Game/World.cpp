@@ -55,7 +55,7 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	const auto posOffset = blocks[blockType].posOffset;
 	const auto size = blocks[blockType].size;
 
-	block->addComponent(new TextureComponent(blockType));
+	block->addComponent(new TextureComponent(blockType, "atlas"));
 	block->position = { posOffset.x + x + 0.0f, posOffset.y, posOffset.z + z + 0.0f };
 	block->scale = { size.x, size.y, size.z };
 
