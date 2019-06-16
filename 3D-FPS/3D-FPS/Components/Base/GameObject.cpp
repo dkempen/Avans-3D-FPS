@@ -17,6 +17,8 @@ void GameObject::addComponent(Component *component)
 		controlComponents.emplace_back(dynamic_cast<ControlComponent *>(component));
 	if (dynamic_cast<PhysicsComponent *>(component))
 		physicsComponents.emplace_back(dynamic_cast<PhysicsComponent *>(component));
+	if (dynamic_cast<OtherComponent *>(component))
+		otherComponents.emplace_back(dynamic_cast<OtherComponent *>(component));
 }
 
 std::list<Component *> GameObject::getComponents() const
@@ -31,18 +33,20 @@ void GameObject::draw() const
 		glPushMatrix();
 		glTranslatef(-position.x, -position.y, -position.z);
 		glScalef(scale.x, scale.y, scale.z);
-		glRotatef(-rotation.z, 0, 0, 1);
-		glRotatef(-rotation.y, 0, 1, 0);
 		glRotatef(-rotation.x, 1, 0, 0);
+		glRotatef(-rotation.y, 0, 1, 0);
+		glRotatef(-rotation.z, 0, 0, 1);
 		component->draw();
 		glPopMatrix();
 	}
 }
 
-void GameObject::update(World &world, const float elapsedTime) const
+void GameObject::update(GameLogic &gameLogic, World &world, const float elapsedTime) const
 {
 	for (auto component : controlComponents)
 		component->update(elapsedTime);
 	for (auto component : physicsComponents)
 		component->update(world, elapsedTime);
+	for (auto component : otherComponents)
+		component->update(gameLogic, elapsedTime);
 }

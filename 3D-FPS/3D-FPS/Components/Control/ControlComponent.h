@@ -8,5 +8,5 @@ public:
 	ControlComponent();
 	~ControlComponent();
 
-	virtual void update(float elapsedTime) {};
+	virtual void update(float elapsedTime) = 0;
 };

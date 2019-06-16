@@ -5,8 +5,8 @@
 #include "../../Math/Graphics.h"
 #include "../../Data/DataManager.h"
 
-ModelComponent::ModelComponent(const std::string &mesh, const std::string &texture)
-	: mesh(DataManager::getInstance().getMesh(mesh)), texture(DataManager::getInstance().getTexture(texture))
+ModelComponent::ModelComponent(const std::string& modelName)
+	: mesh(DataManager::getInstance().getMesh(modelName)), texture(DataManager::getInstance().getTexture(modelName))
 {
 }
 
@@ -14,6 +14,8 @@ ModelComponent::~ModelComponent() = default;
 
 void ModelComponent::draw()
 {
+	glScalef(-1, -1, -1);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

@@ -9,7 +9,7 @@ class ModelComponent : public DrawComponent
 	Graphics::Mesh mesh;
 	uint16_t texture;
 public:
-	ModelComponent(const std::string& mesh, const std::string& texture);
+	ModelComponent(const std::string& modelName);
 	~ModelComponent();
 
 	void draw() override;

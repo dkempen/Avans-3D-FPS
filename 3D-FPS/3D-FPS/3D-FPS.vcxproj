@@ -136,8 +136,10 @@
     <ClCompile Include="Components\Draw\TextureComponent.cpp" />
     <ClCompile Include="Data\TextureManager.cpp" />
     <ClCompile Include="Components\Draw\ModelComponent.cpp" />
+    <ClCompile Include="Components\Other\OtherComponent.cpp" />
     <ClCompile Include="Util\ObjectLoader.cpp" />
     <ClCompile Include="Util\TextureLoader.cpp" />
+    <ClCompile Include="Components\Other\WeaponComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\DataManager.h" />
@@ -159,8 +161,10 @@
     <ClInclude Include="Extern\stb_image.h" />
     <ClInclude Include="Data\TextureManager.h" />
     <ClInclude Include="Components\Draw\ModelComponent.h" />
+    <ClInclude Include="Components\Other\OtherComponent.h" />
     <ClInclude Include="Util\ObjectLoader.h" />
     <ClInclude Include="Util\TextureLoader.h" />
+    <ClInclude Include="Components\Other\WeaponComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game\world.txt" />

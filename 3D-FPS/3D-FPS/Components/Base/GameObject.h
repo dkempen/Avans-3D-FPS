@@ -1,13 +1,13 @@
 #pragma once
 
-#include <list>
 #include "../../Math/Vec.h"
 #include "../../Math/BoundingBox.h"
 #include "Component.h"
-#include "../../Game/World.h"
 #include "../Draw/DrawComponent.h"
 #include "../Control/ControlComponent.h"
 #include "../Physics/PhysicsComponent.h"
+#include "../Other/OtherComponent.h"
+#include <list>
 
 class PhysicsComponent;
 class World;
@@ -17,6 +17,7 @@ class GameObject
 	std::vector<DrawComponent *>drawComponents;
 	std::vector<ControlComponent *>controlComponents;
 	std::vector<PhysicsComponent *>physicsComponents;
+	std::vector<OtherComponent *>otherComponents;
 
 	std::list<Component *> components;
 public:
@@ -33,7 +34,7 @@ public:
 
 	void addComponent(Component *component);
 	std::list<Component *> getComponents() const;
-	void update(World &world, float elapsedTime) const;
+	void update(GameLogic &gameLogic, World &world, float elapsedTime) const;
 	void draw() const;
 
 	template<class T>

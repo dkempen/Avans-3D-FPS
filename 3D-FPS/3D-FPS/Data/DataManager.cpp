@@ -40,8 +40,8 @@ void DataManager::initModels()
 {
 	textures["atlas"] = TextureLoader::addTexture("Resources/Atlas/atlas.png", textures.size());
 
-	textures["packet"] = TextureLoader::addTexture("Resources/Pakketje/pakketje.png", textures.size());
-	meshes["packet"] = ObjLoader::loadObj("Resources/Pakketje/pakketje.obj");
+	textures["weapon"] = TextureLoader::addTexture("Resources/Weapon/weapon.png", textures.size());
+	meshes["weapon"] = ObjLoader::loadObj("Resources/Weapon/weapon.obj");
 }
 
 Graphics::Mesh DataManager::getMesh(const std::string& mesh)
