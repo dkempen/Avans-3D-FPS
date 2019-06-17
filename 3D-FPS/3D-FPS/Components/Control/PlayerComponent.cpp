@@ -41,8 +41,8 @@ void PlayerComponent::update(float elapsedTime)
 	const auto vector = convertHeading(strafe, forward, WALK_SPEED);
 	auto slipperiness = 0.6f;
 	slipperiness = slipperiness * 0.91f;
-	const auto multiplier = 0.1f * (0.1627714f / std::pow(slipperiness, 3));
-	const auto vel = vector * multiplier;
+	const auto multiplier = 100.0f * (0.1627714f / std::pow(slipperiness, 3));
+	const auto vel = vector * multiplier * elapsedTime;
 	gameObject->velocity.x += vel.x;
 	if (strafe != 0 || forward != 0 && abs(gameObject->velocity.x) > vector.x)
 		gameObject->velocity.x = vector.x;
@@ -60,13 +60,6 @@ void PlayerComponent::update(float elapsedTime)
 	}
 	if (previousPositiveY && gameObject->velocity.y < 0.0f)
 		previousPositiveY = false;
-
-	// Spawn bullets
-	if (leftMouse)
-	{
-		leftMouse = false;
-		// DataManager::getInstance().gameLogic.spawnBullet(gameObject);
-	}
 
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;

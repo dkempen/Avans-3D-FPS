@@ -4,6 +4,7 @@
 
 class WeaponComponent : public OtherComponent
 {
+	float cooldown;
 public:
 	WeaponComponent();
 	~WeaponComponent();

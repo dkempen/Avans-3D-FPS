@@ -7,6 +7,7 @@ class GameLogic
 	World *world;
 	std::vector<GameObject *> objects;
 	GameObject *player;
+	GameObject *bullet;
 public:
 	GameLogic();
 	~GameLogic();
@@ -16,4 +17,5 @@ public:
 	void update(float deltaTime);
 
 	GameObject *getPlayer() const;
+	void spawnBullet();
 };

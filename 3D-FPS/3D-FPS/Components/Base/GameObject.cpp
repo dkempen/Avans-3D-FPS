@@ -28,17 +28,18 @@ std::list<Component *> GameObject::getComponents() const
 
 void GameObject::draw() const
 {
+	glPushMatrix();
+
+	glTranslatef(-position.x, -position.y, -position.z);
+	glScalef(scale.x, scale.y, scale.z);
+	glRotatef(-rotation.x, 1, 0, 0);
+	glRotatef(-rotation.y, 0, 1, 0);
+	glRotatef(-rotation.z, 0, 0, 1);
+
 	for (auto component : drawComponents)
-	{
-		glPushMatrix();
-		glTranslatef(-position.x, -position.y, -position.z);
-		glScalef(scale.x, scale.y, scale.z);
-		glRotatef(-rotation.x, 1, 0, 0);
-		glRotatef(-rotation.y, 0, 1, 0);
-		glRotatef(-rotation.z, 0, 0, 1);
 		component->draw();
-		glPopMatrix();
-	}
+
+	glPopMatrix();
 }
 
 void GameObject::update(GameLogic &gameLogic, World &world, const float elapsedTime) const

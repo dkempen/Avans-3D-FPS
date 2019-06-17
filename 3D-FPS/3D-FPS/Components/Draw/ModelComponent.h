@@ -8,8 +8,11 @@ class ModelComponent : public DrawComponent
 {
 	Graphics::Mesh mesh;
 	uint16_t texture;
+	bool weaponOverlay;
 public:
-	ModelComponent(const std::string& modelName);
+	Vec3f offset;
+
+	ModelComponent(const std::string& modelName, bool weaponOverlay);
 	~ModelComponent();
 
 	void draw() override;

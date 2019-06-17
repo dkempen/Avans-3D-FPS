@@ -22,10 +22,10 @@ void GameLogic::init()
 
 	// Create weapon object
 	auto weapon = new GameObject();
-	weapon->position.x = 5;
-	weapon->position.z = 5;
-	weapon->position.y = 1;
-	weapon->addComponent(new ModelComponent("weapon"));
+	weapon->position = { 0.5f, -0.5f, -1 };
+	weapon->rotation = { 0, 90, 180 };
+	weapon->scale = { 0.5f, 0.5f, 0.5f };
+	weapon->addComponent(new ModelComponent("weapon", true));
 	weapon->addComponent(new WeaponComponent());
 	objects.push_back(weapon);
 }
@@ -40,6 +40,13 @@ void GameLogic::draw()
 
 void GameLogic::update(const float deltaTime)
 {
+	// Add a bullet to the list of objects if it has been spawned
+	if (bullet)
+	{
+		objects.push_back(bullet);
+		bullet = nullptr;
+	}
+
 	for (auto &o : objects)
 		o->update(*this, *world, deltaTime);
 }
@@ -47,4 +54,17 @@ void GameLogic::update(const float deltaTime)
 GameObject *GameLogic::getPlayer() const
 {
 	return player;
+}
+
+void GameLogic::spawnBullet()
+{
+	// Create bullet object
+	bullet = new GameObject();
+	bullet->position = player->position;
+	bullet->position.y += 1.6f;
+	// bullet->position.z += 0.5f;
+	bullet->rotation = player->rotation;
+	bullet->scale = { 0.1f, 0.1f, 0.1f };
+	bullet->addComponent(new ModelComponent("weapon", false));
+	// bullet->addComponent(new BulletComponent());
 }

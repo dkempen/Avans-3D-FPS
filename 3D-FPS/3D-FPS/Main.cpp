@@ -201,8 +201,8 @@ void onMousePassiveMotion(int x, int y)
 
 void onMouse(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-		leftMouse = true;
+	if (button == GLUT_LEFT_BUTTON)
+		leftMouse = !state;
 }
 
 void onReshape(int w, int h)

@@ -1,18 +1,35 @@
 #include "WeaponComponent.h"
-#include "../Base/GameObject.h"
 #include "../../Game/GameLogic.h"
+#include "../Draw/ModelComponent.h"
 
-WeaponComponent::WeaponComponent() = default;
+extern bool leftMouse;
+
+WeaponComponent::WeaponComponent() : cooldown()
+{
+}
 
 WeaponComponent::~WeaponComponent() = default;
 
-void WeaponComponent::update(GameLogic& gameLogic, float elapsedTime)
+void WeaponComponent::update(GameLogic& gameLogic, const float elapsedTime)
 {
-	auto player = gameLogic.getPlayer();
-	gameObject->position = player->position;
-	gameObject->position.y += 1;
+	const auto offset = &gameObject->getComponent<ModelComponent>()->offset;
+	cooldown -= elapsedTime;
+	if (leftMouse)
+	{
+		if (cooldown <= 0)
+		{
+			// Reset cooldown
+			cooldown = 0.1f;
 
-	gameObject->rotation.z = player->rotation.x;
-	gameObject->rotation.y = -player->rotation.y;
-	gameObject->rotation.y += 90;
+			// Set weapon model offset
+			offset->z = 0.5f;
+			
+			// Spawn bullet
+			gameLogic.spawnBullet();
+		}
+	}
+
+	offset->z -= elapsedTime * 10.0f * offset->z;
+	if (offset->z < 0)
+		offset->z = 0;
 }

@@ -5,8 +5,12 @@
 #include "../../Math/Graphics.h"
 #include "../../Data/DataManager.h"
 
-ModelComponent::ModelComponent(const std::string& modelName)
-	: mesh(DataManager::getInstance().getMesh(modelName)), texture(DataManager::getInstance().getTexture(modelName))
+extern Vec2f cursorOffset;
+
+ModelComponent::ModelComponent(const std::string& modelName, const bool weaponOverlay)
+	: mesh(DataManager::getInstance().getMesh(modelName)),
+	texture(DataManager::getInstance().getTexture(modelName)),
+	weaponOverlay(weaponOverlay)
 {
 }
 
@@ -14,6 +18,20 @@ ModelComponent::~ModelComponent() = default;
 
 void ModelComponent::draw()
 {
+	if (weaponOverlay)
+	{
+		glLoadIdentity();
+
+		glTranslatef(gameObject->position.x, gameObject->position.y, gameObject->position.z);
+		// TODO: Smoothing
+		glTranslatef(cursorOffset.x / 1000.0f, cursorOffset.y / 1000.0f, 0);
+		glTranslatef(offset.x, offset.y, offset.z);
+		glScalef(gameObject->scale.x, gameObject->scale.y, gameObject->scale.z);
+		glRotatef(gameObject->rotation.x, 1, 0, 0);
+		glRotatef(gameObject->rotation.y, 0, 1, 0);
+		glRotatef(gameObject->rotation.z, 0, 0, 1);
+	}
+
 	glScalef(-1, -1, -1);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
