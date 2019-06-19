@@ -3,8 +3,6 @@
 #include "../../Math/Vec.h"
 #include "../Base/GameObject.h"
 #include <algorithm>
-#include "../../Data/DataManager.h"
-#include <iostream>
 
 extern bool keys[256];
 extern bool leftMouse;
@@ -38,7 +36,10 @@ void PlayerComponent::update(float elapsedTime)
 		strafe = 0;
 
 	// TODO: Cleanup
-	const auto vector = convertHeading(strafe, forward, WALK_SPEED);
+	auto speedMultiplier = WALK_SPEED;
+	if (keys[int('f')])
+		speedMultiplier = RUN_SPEED;
+	const auto vector = convertHeading(gameObject->rotation.y, strafe, forward, speedMultiplier);
 	auto slipperiness = 0.6f;
 	slipperiness = slipperiness * 0.91f;
 	const auto multiplier = 100.0f * (0.1627714f / std::pow(slipperiness, 3));
@@ -51,7 +52,7 @@ void PlayerComponent::update(float elapsedTime)
 		gameObject->velocity.z = vector.z;
 	gameObject->velocity.x *= 1 - 20.0f * elapsedTime;
 	gameObject->velocity.z *= 1 - 20.0f * elapsedTime;
-	gameObject->velocity.maxXZ(WALK_SPEED);
+	gameObject->velocity.maxXZ(speedMultiplier);
 
 	if (!previousPositiveY && keys[int(' ')] && gameObject->velocity.y == 0)
 	{
@@ -66,7 +67,6 @@ void PlayerComponent::update(float elapsedTime)
 
 	gameObject->rotation.x += cursorOffset.y / 10.0f;
 	gameObject->rotation.y += cursorOffset.x / 10.0f;
-	cursorOffset = { 0, 0 };
 	if (gameObject->rotation.x < -90)
 		gameObject->rotation.x = -90;
 	if (gameObject->rotation.x > 90)
@@ -77,7 +77,7 @@ void PlayerComponent::update(float elapsedTime)
 		gameObject->rotation.y += 360;
 }
 
-Vec3f PlayerComponent::convertHeading(float strafe, float forward, const float multiplier) const
+Vec3f PlayerComponent::convertHeading(const float rotation, float strafe, float forward, const float multiplier)
 {
 	auto speed = float(sqrt(strafe * strafe + forward * forward));
 	if (speed < 0.01)
@@ -88,8 +88,8 @@ Vec3f PlayerComponent::convertHeading(float strafe, float forward, const float m
 	strafe *= speed;
 	forward *= speed;
 
-	const auto yawXComponent = float(cos(gameObject->rotation.y * (M_PI / 180.0f)));
-	const auto yawZComponent = float(sin(gameObject->rotation.y * (M_PI / 180.0f)));
+	const auto yawXComponent = float(cos(rotation * (M_PI / 180.0f)));
+	const auto yawZComponent = float(sin(rotation * (M_PI / 180.0f)));
 
 	const auto xComponent = forward * yawZComponent - strafe * yawXComponent;
 	const auto zComponent = forward * yawXComponent + strafe * yawZComponent;

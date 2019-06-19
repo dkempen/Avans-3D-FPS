@@ -117,6 +117,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Control\AIComponent.cpp" />
+    <ClCompile Include="Components\Other\BulletComponent.cpp" />
     <ClCompile Include="Data\DataManager.cpp" />
     <ClCompile Include="Game\Block.cpp" />
     <ClCompile Include="Math\Graphics.cpp" />
@@ -142,6 +144,8 @@
     <ClCompile Include="Components\Other\WeaponComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Control\AIComponent.h" />
+    <ClInclude Include="Components\Other\BulletComponent.h" />
     <ClInclude Include="Data\DataManager.h" />
     <ClInclude Include="Game\Block.h" />
     <ClInclude Include="Math\Graphics.h" />

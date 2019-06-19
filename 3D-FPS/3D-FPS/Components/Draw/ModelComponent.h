@@ -6,11 +6,11 @@
 
 class ModelComponent : public DrawComponent
 {
-	Graphics::Mesh mesh;
-	uint16_t texture;
+	Graphics::Mesh *mesh;
+	uint16_t *texture;
 	bool weaponOverlay;
 public:
-	Vec3f offset;
+	Vec3f positionOffset;
 
 	ModelComponent(const std::string& modelName, bool weaponOverlay);
 	~ModelComponent();

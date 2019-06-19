@@ -6,7 +6,7 @@
 
 class World
 {
-	const int WORLD_SIZE = 10;
+	const int WORLD_SIZE = 20;
 	std::vector<std::vector<int>> worldBlocks;
 
 	void initWorld(std::vector<GameObject *> &objects);
@@ -18,5 +18,5 @@ public:
 	~World() = default;
 
 	float getBlockHeight(int x, int z);
-
+	void setOnRandomEmptyBlock(Vec3f &position) const;
 };

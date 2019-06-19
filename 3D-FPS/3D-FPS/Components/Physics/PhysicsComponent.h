@@ -4,9 +4,10 @@
 #include "../../Game/World.h"
 
 class World;
+class GameLogic;
 
 class PhysicsComponent : public Component
 {
 public:
-	virtual void update(World &world, float elapsedTime) = 0;
+	virtual void update(GameLogic &gameLogic, World &world, float elapsedTime) = 0;
 };

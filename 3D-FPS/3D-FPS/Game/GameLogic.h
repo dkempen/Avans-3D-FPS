@@ -8,6 +8,10 @@ class GameLogic
 	std::vector<GameObject *> objects;
 	GameObject *player;
 	GameObject *bullet;
+
+	float spawnCounter;
+
+	static float degreeToRad(float degree);
 public:
 	GameLogic();
 	~GameLogic();
@@ -18,4 +22,8 @@ public:
 
 	GameObject *getPlayer() const;
 	void spawnBullet();
+	void handleBullets();
+	void spawnAI();
+	void handleAI(float deltaTime);
+	std::vector<GameObject*> getObjects() const;
 };

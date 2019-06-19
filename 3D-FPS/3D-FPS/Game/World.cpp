@@ -20,7 +20,6 @@ void World::initWorld(std::vector<GameObject*> &objects)
 		{
 			// Block
 			setBlock(objects, x, z, Block::BlockType::NONE);
-			// TODO: Simplify ceiling and floor logic
 			// Ceiling
 			setBlock(objects, x, z, Block::BlockType::CEILING);
 		}
@@ -69,6 +68,20 @@ float World::getBlockHeight(const int x, const int z)
 
 	const auto block = DataManager::getInstance().blocks[intToBlockType(worldBlocks[x][z])];
 	return block.size.y + block.posOffset.y;
+}
+
+void World::setOnRandomEmptyBlock(Vec3f &position) const
+{
+	while (true)
+	{
+		const auto x = rand() % WORLD_SIZE;
+		const auto z = rand() % WORLD_SIZE;
+		if (worldBlocks[x][z] == 0)
+		{
+			position = {x + 0.5f, 0, z + 0.5f};
+			return;
+		}
+	}
 }
 
 Block::BlockType World::intToBlockType(const int number)

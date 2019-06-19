@@ -47,7 +47,7 @@ void GameObject::update(GameLogic &gameLogic, World &world, const float elapsedT
 	for (auto component : controlComponents)
 		component->update(elapsedTime);
 	for (auto component : physicsComponents)
-		component->update(world, elapsedTime);
+		component->update(gameLogic, world, elapsedTime);
 	for (auto component : otherComponents)
 		component->update(gameLogic, elapsedTime);
 }

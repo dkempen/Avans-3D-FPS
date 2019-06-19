@@ -100,6 +100,28 @@ void onDisplay()
 		player->position.x,
 		player->position.y + player->getComponent<PlayerComponent>()->headHeight,
 		player->position.z);
+	
+	//Lighting
+	GLfloat matSpecular[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat matShininess[] = { 50.0 };
+	GLfloat lightPosition[] = { -5.0, -2.0, -5.0, 0.0 };
+	GLfloat lightPosition1[] = { -15.0, -2.0, -15.0, 0.0 };
+	GLfloat lightAmbient[] = { 0.0, 0.0, 0.0, 1.0 };
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glShadeModel(GL_SMOOTH);
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
+	// glLightfv(GL_LIGHT1, GL_POSITION, lightPosition1);
+	// glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
+
+	glEnable(GL_LIGHT0);
+	// glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
 
 	// Draw stuff
 	gameLogic.draw();
@@ -160,10 +182,13 @@ void onIdle()
 	std::chrono::duration<float, std::milli> elapsed = frameTime - lastFrameTime;
 	deltaTime = elapsed.count() / 1000.0f;
 	lastFrameTime = frameTime;
+	if (deltaTime <= 0 || deltaTime > 1)
+		return;
 
 	// Update stuff
 	gameLogic.update(deltaTime);
 
+	cursorOffset = { 0, 0 };
 	glutPostRedisplay();
 }
 

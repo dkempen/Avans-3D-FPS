@@ -5,15 +5,16 @@
 
 class PlayerComponent : public ControlComponent
 {
-	const float WALK_SPEED = 4.3f;
+	const float WALK_SPEED = 4.8f;
+	const float RUN_SPEED = 6.0f;
 	const float ACCELERATION = 1.0f;
 	bool previousPositiveY;
 
-	Vec3f convertHeading(float strafe, float forward, float multiplier) const;
 public:
-	PlayerComponent(GameObject &player);
-
 	float headHeight = 1.62f;
 
+	PlayerComponent(GameObject &player);
+
 	void update(float elapsedTime) override;
+	static Vec3f convertHeading(float rotation, float strafe, float forward, float multiplier);
 };

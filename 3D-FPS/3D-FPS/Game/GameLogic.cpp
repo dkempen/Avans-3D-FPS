@@ -4,6 +4,9 @@
 #include "../Components/Physics/CollisionComponent.h"
 #include "../Components/Draw/ModelComponent.h"
 #include "../Components/Other/WeaponComponent.h"
+#include "../Components/Other/BulletComponent.h"
+#include <corecrt_math_defines.h>
+#include "../Components/Control/AIComponent.h"
 
 GameLogic::GameLogic() = default;
 
@@ -40,20 +43,11 @@ void GameLogic::draw()
 
 void GameLogic::update(const float deltaTime)
 {
-	// Add a bullet to the list of objects if it has been spawned
-	if (bullet)
-	{
-		objects.push_back(bullet);
-		bullet = nullptr;
-	}
+	handleAI(deltaTime);
+	handleBullets();
 
 	for (auto &o : objects)
 		o->update(*this, *world, deltaTime);
-}
-
-GameObject *GameLogic::getPlayer() const
-{
-	return player;
 }
 
 void GameLogic::spawnBullet()
@@ -62,9 +56,75 @@ void GameLogic::spawnBullet()
 	bullet = new GameObject();
 	bullet->position = player->position;
 	bullet->position.y += 1.6f;
-	// bullet->position.z += 0.5f;
-	bullet->rotation = player->rotation;
-	bullet->scale = { 0.1f, 0.1f, 0.1f };
-	bullet->addComponent(new ModelComponent("weapon", false));
-	// bullet->addComponent(new BulletComponent());
+	bullet->rotation.y = player->rotation.y * -1.0f;
+	bullet->rotation.z = player->rotation.x + 90;
+	bullet->rotation.y = bullet->rotation.y + 90;
+	bullet->velocity = {
+		sin(degreeToRad(player->rotation.y)) *
+		cos(degreeToRad(-player->rotation.x)),
+		sin(degreeToRad(-player->rotation.x)),
+		cos(degreeToRad(player->rotation.y)) *
+		cos(degreeToRad(-player->rotation.x)) };
+	bullet->velocity *= 50.0f;
+	bullet->scale = { 0.01f, 0.01f, 0.01f };
+	bullet->addComponent(new ModelComponent("bullet", false));
+	bullet->addComponent(new CollisionComponent());
+	bullet->addComponent(new BulletComponent(bullet));
+}
+
+void GameLogic::handleBullets()
+{
+	// Add a bullet to the list of objects if it has been spawned
+	if (bullet)
+	{
+		objects.push_back(bullet);
+		bullet = nullptr;
+	}
+
+	for (auto it = objects.begin(); it != objects.end(); ++it)
+		if ((*it)->getComponent<BulletComponent>())
+			if ((*it)->getComponent<BulletComponent>()->hasHit)
+				objects.erase(it--);
+}
+
+void GameLogic::spawnAI()
+{
+	// Create AI
+	auto ai = new GameObject();
+	world->setOnRandomEmptyBlock(ai->position);
+	ai->scale = { 0.2f, 0.2f, 0.2f };
+	ai->addComponent(new ModelComponent("enemy", false));
+	ai->addComponent(new CollisionComponent());
+	ai->addComponent(new AIComponent(ai, player));
+	objects.push_back(ai);
+}
+
+void GameLogic::handleAI(const float deltaTime)
+{
+	for (auto it = objects.begin(); it != objects.end(); ++it)
+		if ((*it)->getComponent<AIComponent>())
+			if ((*it)->getComponent<AIComponent>()->isDead)
+				objects.erase(it--);
+
+	spawnCounter += deltaTime;
+	if (spawnCounter > 3)
+	{
+		spawnCounter = 0;
+		spawnAI();
+	}
+}
+
+float GameLogic::degreeToRad(const float degree)
+{
+	return static_cast<float>(degree * M_PI / 180.0f);
+}
+
+std::vector<GameObject*> GameLogic::getObjects() const
+{
+	return objects;
+}
+
+GameObject *GameLogic::getPlayer() const
+{
+	return player;
 }

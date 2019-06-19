@@ -42,14 +42,19 @@ void DataManager::initModels()
 
 	textures["weapon"] = TextureLoader::addTexture("Resources/Weapon/weapon.png", textures.size());
 	meshes["weapon"] = ObjLoader::loadObj("Resources/Weapon/weapon.obj");
+
+	meshes["bullet"] = ObjLoader::loadObj("Resources/Bullet/bullet.obj");
+
+	textures["enemy"] = TextureLoader::addTexture("Resources/Enemy/enemy.png", textures.size());
+	meshes["enemy"] = ObjLoader::loadObj("Resources/Enemy/enemy.obj");
 }
 
-Graphics::Mesh DataManager::getMesh(const std::string& mesh)
+Graphics::Mesh &DataManager::getMesh(const std::string& mesh)
 {
 	return meshes[mesh];
 }
 
-uint16_t DataManager::getTexture(const std::string& texture)
+uint16_t &DataManager::getTexture(const std::string& texture)
 {
 	return textures[texture];
 }

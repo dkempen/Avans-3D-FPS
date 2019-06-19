@@ -1,14 +1,18 @@
 #include "CollisionComponent.h"
+#include "../Other/BulletComponent.h"
+#include "../Control/AIComponent.h"
 
-void CollisionComponent::update(World &world, float elapsedTime)
+void CollisionComponent::update(GameLogic &gameLogic, World &world, float elapsedTime)
 {
-	collideWithNearbyBoxes(world, elapsedTime);
+	collideWithNearbyBoxes(gameLogic.getObjects(), world, elapsedTime);
 }
 
-void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime) const
+void CollisionComponent::collideWithNearbyBoxes(std::vector<GameObject *> gameObjects, World &world, float elapsedTime) const
 {
-	BoundingBox absolute = gameObject->boundingBox.getAbsoluteBox(gameObject->position);
+	// Get current object bounding box
+	auto current = gameObject->boundingBox.getAbsoluteBox(gameObject->position);
 
+	// Check floor
 	gameObject->velocity.y -= 25.0f * elapsedTime;
 	if (gameObject->position.y < -10.0f)
 	{
@@ -16,34 +20,61 @@ void CollisionComponent::collideWithNearbyBoxes(World &world, float elapsedTime)
 		gameObject->velocity = { 0, 0, 0 };
 	}
 
+	// Calculate position offset
 	auto dx = gameObject->velocity.x * elapsedTime;
 	auto dy = gameObject->velocity.y * elapsedTime;
 	auto dz = gameObject->velocity.z * elapsedTime;
-	
+
+	// Get world coords
 	const auto x = int(gameObject->position.x + dx);
 	const auto z = int(gameObject->position.z + dz);
 
-	BoundingBox temp;
+	// Bounding box of the "other" object
+	BoundingBox other;
 
-	// TODO: Simplify ceiling and floor logic
-	// Ceiling Y bounding box
-	temp.min = { 0.0f, 4.0f, 0.0f };
-	temp.max = { 10.0f, 5.0f, 10.0f };
-	calculateOffsetY(absolute, temp, dy);
+	// Check Ceiling
+	other.min = { 0.0f, 4.0f, 0.0f };
+	other.max = { 20.0f, 5.0f, 20.0f };
+	calculateOffsetY(current, other, dy);
 
+	// Check world
 	for (auto xx = -1; xx <= 1; ++xx)
 		for (auto zz = -1; zz <= 1; ++zz)
 		{
 			const auto blockHeight = world.getBlockHeight(x + xx, z + zz);
 			if (blockHeight >= 0.0f)
 			{
-				temp.min = { x + xx + 0.0f, 0.0f, z + zz + 0.0f };
-				temp.max = { x + xx + 1.0f, blockHeight, z + zz + 1.0f };
-				calculateOffsetY(absolute, temp, dy);
-				calculateOffsetX(absolute, temp, dx);
-				calculateOffsetZ(absolute, temp, dz);
+				other.min = { x + xx + 0.0f, 0.0f, z + zz + 0.0f };
+				other.max = { x + xx + 1.0f, blockHeight, z + zz + 1.0f };
+				calculateOffsetY(current, other, dy);
+				calculateOffsetX(current, other, dx);
+				calculateOffsetZ(current, other, dz);
 			}
 		}
+
+	// Check entities
+	for (auto object : gameObjects)
+	{
+		if (object != gameObject && object->getComponent<CollisionComponent>())
+		{
+			const auto prevX = gameObject->velocity.x;
+			const auto prevY = gameObject->velocity.y;
+			const auto prevZ = gameObject->velocity.z;
+
+			other = object->boundingBox.getAbsoluteBox(object->position);
+			calculateOffsetY(current, other, dy);
+			calculateOffsetX(current, other, dx);
+			calculateOffsetZ(current, other, dz);
+
+			// Send hit message to object if bullet has hit an object with an AIComponent
+			if (gameObject->getComponent<BulletComponent>())
+				if (prevX != 0 && gameObject->velocity.x == 0 ||
+					prevY != 0 && gameObject->velocity.y == 0 ||
+					prevZ != 0 && gameObject->velocity.z == 0 &&
+					object->getComponent<AIComponent>())
+					object->getComponent<AIComponent>()->bulletHit();
+		}
+	}
 
 	// Set new position
 	gameObject->position.x += dx;
