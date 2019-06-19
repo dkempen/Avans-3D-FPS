@@ -117,7 +117,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Base\Component.cpp" />
+    <ClCompile Include="Components\Control\AIComponent.cpp" />
+    <ClCompile Include="Components\Draw\DrawComponent.cpp" />
+    <ClCompile Include="Components\Other\BulletComponent.cpp" />
+    <ClCompile Include="Data\DataManager.cpp" />
+    <ClCompile Include="Game\Block.cpp" />
+    <ClCompile Include="Math\Graphics.cpp" />
+    <ClCompile Include="Math\BoundingBox.cpp" />
+    <ClCompile Include="Components\Physics\CollisionComponent.cpp" />
+    <ClCompile Include="Components\Base\GameObject.cpp" />
+    <ClCompile Include="Components\Draw\CubeComponent.cpp" />
+    <ClCompile Include="Components\Control\ControlComponent.cpp" />
+    <ClCompile Include="Game\GameLogic.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Math\Vec.cpp" />
+    <ClCompile Include="Components\Control\PlayerComponent.cpp" />
+    <ClCompile Include="Game\World.cpp" />
+    <ClCompile Include="Components\Physics\PhysicsComponent.cpp" />
+    <ClCompile Include="Components\Draw\TextureComponent.cpp" />
+    <ClCompile Include="Data\TextureManager.cpp" />
+    <ClCompile Include="Components\Draw\ModelComponent.cpp" />
+    <ClCompile Include="Components\Other\OtherComponent.cpp" />
+    <ClCompile Include="Util\ObjectLoader.cpp" />
+    <ClCompile Include="Util\TextureLoader.cpp" />
+    <ClCompile Include="Components\Other\WeaponComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Components\Control\AIComponent.h" />
+    <ClInclude Include="Components\Other\BulletComponent.h" />
+    <ClInclude Include="Data\DataManager.h" />
+    <ClInclude Include="Game\Block.h" />
+    <ClInclude Include="Math\Graphics.h" />
+    <ClInclude Include="Math\BoundingBox.h" />
+    <ClInclude Include="Components\Physics\CollisionComponent.h" />
+    <ClInclude Include="Components\Base\Component.h" />
+    <ClInclude Include="Components\Base\GameObject.h" />
+    <ClInclude Include="Components\Draw\DrawComponent.h" />
+    <ClInclude Include="Components\Draw\CubeComponent.h" />
+    <ClInclude Include="Components\Control\ControlComponent.h" />
+    <ClInclude Include="Game\GameLogic.h" />
+    <ClInclude Include="Math\Vec.h" />
+    <ClInclude Include="Components\Control\PlayerComponent.h" />
+    <ClInclude Include="Game\World.h" />
+    <ClInclude Include="Components\Physics\PhysicsComponent.h" />
+    <ClInclude Include="Components\Draw\TextureComponent.h" />
+    <ClInclude Include="Extern\stb_image.h" />
+    <ClInclude Include="Data\TextureManager.h" />
+    <ClInclude Include="Components\Draw\ModelComponent.h" />
+    <ClInclude Include="Components\Other\OtherComponent.h" />
+    <ClInclude Include="Util\ObjectLoader.h" />
+    <ClInclude Include="Util\TextureLoader.h" />
+    <ClInclude Include="Components\Other\WeaponComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Game\world.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
