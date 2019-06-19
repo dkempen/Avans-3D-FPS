@@ -24,7 +24,7 @@ void WeaponComponent::update(GameLogic& gameLogic, const float elapsedTime)
 
 			// Set weapon model offset
 			offset->z = 0.5f;
-			
+
 			// Spawn bullet
 			gameLogic.spawnBullet();
 		}
@@ -33,11 +33,13 @@ void WeaponComponent::update(GameLogic& gameLogic, const float elapsedTime)
 	const auto distance = 0.02f;
 	const auto speed = 10.0f;
 
+	// Create the recoil animation
 	offset->z -= elapsedTime * speed * offset->z;
 	if (offset->z < 0)
 		offset->z = 0;
 
-	const Vec2f target = {-cursorOffset.x * distance, cursorOffset.y * distance };
+	// Make the weapon go from side to side depending on the cursor movement
+	const Vec2f target = { -cursorOffset.x * distance, cursorOffset.y * distance };
 
 	const auto differenceX = target.x - offset->x;
 	offset->x += elapsedTime * speed * differenceX;

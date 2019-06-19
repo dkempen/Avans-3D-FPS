@@ -14,10 +14,10 @@ class World;
 
 class GameObject
 {
-	std::vector<DrawComponent *>drawComponents;
-	std::vector<ControlComponent *>controlComponents;
-	std::vector<PhysicsComponent *>physicsComponents;
-	std::vector<OtherComponent *>otherComponents;
+	DrawComponent *drawComponent;
+	ControlComponent *controlComponent;
+	PhysicsComponent *physicsComponent;
+	OtherComponent *otherComponent;
 
 	std::list<Component *> components;
 public:
@@ -37,6 +37,7 @@ public:
 	void update(GameLogic &gameLogic, World &world, float elapsedTime) const;
 	void draw() const;
 
+	// Template goodness!
 	template<class T>
 	T* getComponent()
 	{
@@ -49,6 +50,7 @@ public:
 		return nullptr;
 	}
 
+	// Template awesomeness!
 	template<class T>
 	void removeComponent()
 	{

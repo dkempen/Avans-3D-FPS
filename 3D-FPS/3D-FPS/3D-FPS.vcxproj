@@ -117,15 +117,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Base\Component.cpp" />
     <ClCompile Include="Components\Control\AIComponent.cpp" />
+    <ClCompile Include="Components\Draw\DrawComponent.cpp" />
     <ClCompile Include="Components\Other\BulletComponent.cpp" />
     <ClCompile Include="Data\DataManager.cpp" />
     <ClCompile Include="Game\Block.cpp" />
     <ClCompile Include="Math\Graphics.cpp" />
     <ClCompile Include="Math\BoundingBox.cpp" />
     <ClCompile Include="Components\Physics\CollisionComponent.cpp" />
-    <ClCompile Include="Components\Base\Component.cpp" />
-    <ClCompile Include="Components\Draw\DrawComponent.cpp" />
     <ClCompile Include="Components\Base\GameObject.cpp" />
     <ClCompile Include="Components\Draw\CubeComponent.cpp" />
     <ClCompile Include="Components\Control\ControlComponent.cpp" />

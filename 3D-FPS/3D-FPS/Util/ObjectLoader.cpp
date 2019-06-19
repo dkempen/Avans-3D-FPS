@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-static std::vector<std::string> split(std::string str, const char separator)
+static std::vector<std::string> split(const std::string& str, const char separator)
 {
 	std::vector<std::string> strings;
 	std::istringstream f(str);
@@ -16,7 +16,7 @@ static std::vector<std::string> split(std::string str, const char separator)
 	return strings;
 }
 
-Graphics::Mesh ObjLoader::loadObj(std::string filename)
+Graphics::Mesh ObjLoader::loadObj(const std::string& filename)
 {
 	Graphics::Mesh mesh;
 
@@ -24,8 +24,8 @@ Graphics::Mesh ObjLoader::loadObj(std::string filename)
 	if (!f.is_open())
 		return mesh;
 
-	std::vector<Vec3f> verts;
-	std::vector<Vec2f> texture_coords;
+	std::vector<Vec3f> vertices;
+	std::vector<Vec2f> textureCoords;
 	std::vector<Vec3f> normals;
 
 	while (!f.eof())
@@ -42,14 +42,14 @@ Graphics::Mesh ObjLoader::loadObj(std::string filename)
 		{
 			Vec3f v;
 			s >> junk >> v.x >> v.y >> v.z;
-			verts.push_back(v);
+			vertices.push_back(v);
 		}
 		//Texture
 		else if (line[0] == 'v' && line[1] == 't')
 		{
 			Vec2f vt;
 			s >> junk >> junk >> vt.x >> vt.y;
-			texture_coords.push_back(vt);
+			textureCoords.push_back(vt);
 		}
 		//Normal
 		else if (line[0] == 'v' && line[1] == 'n')
@@ -61,19 +61,17 @@ Graphics::Mesh ObjLoader::loadObj(std::string filename)
 		//Polygon
 		else if (line[0] == 'f')
 		{
-			std::string remaining = line;
+			auto remaining = line;
 			remaining = remaining.substr(2, remaining.size());
-			std::vector<std::string> indices = split(remaining, ' ');
+			auto indices = split(remaining, ' ');
 
-			std::vector<std::vector<std::string>> verticesdata;
-			for (int i = 0; i < indices.size(); i++) {
-				std::vector<std::string> vertexdata = split(indices[i], '/');
-
-				verticesdata.push_back(vertexdata);
-
-				if (i >= 2) {
-					addTriangle(mesh, verts, texture_coords, normals, i, verticesdata);
-				}
+			std::vector<std::vector<std::string>> verticesData;
+			for (auto i = 0; i < static_cast<int>(indices.size()); i++)
+			{
+				auto vertexData = split(indices[i], '/');
+				verticesData.push_back(vertexData);
+				if (i >= 2)
+					addTriangle(mesh, vertices, textureCoords, normals, i, verticesData);
 			}
 		}
 	}
@@ -82,37 +80,37 @@ Graphics::Mesh ObjLoader::loadObj(std::string filename)
 }
 
 void ObjLoader::addTriangle(Graphics::Mesh &mesh,
-	const std::vector<Vec3f> &verts,
-	const std::vector<Vec2f> &texture_coords,
+	const std::vector<Vec3f> &vertices,
+	const std::vector<Vec2f> &textureCoords,
 	const std::vector<Vec3f> &normals,
 	const int index,
-	const std::vector<std::vector<std::string>> &verticesdata) {
-	Graphics::Vertex vert;
-	Graphics::Vertex vert2;
-	Graphics::Vertex vert3;
+	const std::vector<std::vector<std::string>> &verticesData) {
+	Graphics::Vertex vertex1;
+	Graphics::Vertex vertex2;
+	Graphics::Vertex vertex3;
 
-	if (!texture_coords.empty())
+	if (!textureCoords.empty())
 	{
-		vert.vt = texture_coords[atoi(verticesdata[0][1].c_str()) - 1];
-		vert2.vt = texture_coords[atoi(verticesdata[index - 1][1].c_str()) - 1];
-		vert3.vt = texture_coords[atoi(verticesdata[index][1].c_str()) - 1];
+		vertex1.vt = textureCoords[atoi(verticesData[0][1].c_str()) - 1];
+		vertex2.vt = textureCoords[atoi(verticesData[index - 1][1].c_str()) - 1];
+		vertex3.vt = textureCoords[atoi(verticesData[index][1].c_str()) - 1];
 	}
 	if (!normals.empty())
 	{
-		vert.vn = normals[atoi(verticesdata[0][2].c_str()) - 1];
-		vert2.vn = normals[atoi(verticesdata[index - 1][2].c_str()) - 1];
-		vert3.vn = normals[atoi(verticesdata[index][2].c_str()) - 1];
+		vertex1.vn = normals[atoi(verticesData[0][2].c_str()) - 1];
+		vertex2.vn = normals[atoi(verticesData[index - 1][2].c_str()) - 1];
+		vertex3.vn = normals[atoi(verticesData[index][2].c_str()) - 1];
 	}
 
-	vert.p = verts[atoi(verticesdata[0][0].c_str()) - 1];
-	vert2.p = verts[atoi(verticesdata[index - 1][0].c_str()) - 1];
-	vert3.p = verts[atoi(verticesdata[index][0].c_str()) - 1];
+	vertex1.p = vertices[atoi(verticesData[0][0].c_str()) - 1];
+	vertex2.p = vertices[atoi(verticesData[index - 1][0].c_str()) - 1];
+	vertex3.p = vertices[atoi(verticesData[index][0].c_str()) - 1];
 
-	vert.fn = Graphics::getNormal(vert.p, vert2.p, vert3.p);
-	vert2.fn = Graphics::getNormal(vert.p, vert2.p, vert3.p);
-	vert3.fn = Graphics::getNormal(vert.p, vert2.p, vert3.p);
+	vertex1.fn = Graphics::getNormal(vertex1.p, vertex2.p, vertex3.p);
+	vertex2.fn = Graphics::getNormal(vertex1.p, vertex2.p, vertex3.p);
+	vertex3.fn = Graphics::getNormal(vertex1.p, vertex2.p, vertex3.p);
 
-	mesh.vertices.push_back(vert);
-	mesh.vertices.push_back(vert2);
-	mesh.vertices.push_back(vert3);
+	mesh.vertices.push_back(vertex1);
+	mesh.vertices.push_back(vertex2);
+	mesh.vertices.push_back(vertex3);
 }

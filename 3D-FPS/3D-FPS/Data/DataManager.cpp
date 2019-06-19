@@ -36,6 +36,7 @@ void DataManager::getBlockCoords(const Block::BlockType block, float& x1, float&
 	y2 = b.y2;
 }
 
+// Load all textures and models into arrays, so that they can be accessed later
 void DataManager::initModels()
 {
 	textures["atlas"] = TextureLoader::addTexture("Resources/Atlas/atlas.png", textures.size());

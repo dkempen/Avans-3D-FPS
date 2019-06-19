@@ -6,7 +6,7 @@ class TextureLoader
 {
 public:
 	/*
-		Reads a texture from an image, and adds it to opengl
+		Reads a texture from an image, and adds it to OpenGL
 
 		@param image_path - The relative path of the image
 		@param amount_of_textures - The amount of textures that already exist

@@ -1,7 +1,7 @@
 #include "Vec.h"
 #include <cmath>
 
-Vec3f::Vec3f(float x, float y, float z)
+Vec3f::Vec3f(const float x, const float y, const float z)
 {
 	this->x = x;
 	this->y = y;
@@ -20,7 +20,7 @@ Vec3f::Vec3f(const Vec3f &other)
 	this->z = other.z;
 }
 
-float& Vec3f::operator [](int index)
+float& Vec3f::operator [](const int index)
 {
 	return v[index];
 }
@@ -77,12 +77,12 @@ Vec3f Vec3f::inverse() const
 
 float Vec3f::length() const
 {
-	return sqrt(x*x+y*y+z*z);
+	return sqrt(x*x + y * y + z * z);
 }
 
-void Vec3f::maxXZ(float maxLength)
+void Vec3f::maxXZ(const float maxLength)
 {
-	const auto len = sqrt(x*x + z*z);
+	const auto len = sqrt(x*x + z * z);
 	if (len <= maxLength)
 		return;
 

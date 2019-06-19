@@ -9,6 +9,7 @@ extern bool leftMouse;
 extern Vec2f cursorOffset;
 
 PlayerComponent::PlayerComponent(GameObject &player)
+	: previousPositiveY(false)
 {
 	const auto width = 0.3f;
 	const auto height = 1.8f;
@@ -17,10 +18,10 @@ PlayerComponent::PlayerComponent(GameObject &player)
 	player.rotation.z = 180;
 }
 
-void PlayerComponent::update(float elapsedTime)
+void PlayerComponent::update(const float elapsedTime)
 {
+	// Check which direction the player is moving
 	float strafe = 0, forward = 0;
-
 	if (keys[int('w')])
 		forward = 1;
 	if (keys[int('s')])
@@ -35,15 +36,19 @@ void PlayerComponent::update(float elapsedTime)
 	if (keys[int('a')] && keys[int('d')])
 		strafe = 0;
 
-	// TODO: Cleanup
+	// Create a movement vector
 	auto speedMultiplier = WALK_SPEED;
 	if (keys[int('f')])
 		speedMultiplier = RUN_SPEED;
 	const auto vector = convertHeading(gameObject->rotation.y, strafe, forward, speedMultiplier);
+
+	// Add friction and other nice stuff
 	auto slipperiness = 0.6f;
 	slipperiness = slipperiness * 0.91f;
 	const auto multiplier = 100.0f * (0.1627714f / std::pow(slipperiness, 3));
 	const auto vel = vector * multiplier * elapsedTime;
+
+	// Limit the velocity to the max value
 	gameObject->velocity.x += vel.x;
 	if (strafe != 0 || forward != 0 && abs(gameObject->velocity.x) > vector.x)
 		gameObject->velocity.x = vector.x;
@@ -54,6 +59,7 @@ void PlayerComponent::update(float elapsedTime)
 	gameObject->velocity.z *= 1 - 20.0f * elapsedTime;
 	gameObject->velocity.maxXZ(speedMultiplier);
 
+	// Jump if space is pressed
 	if (!previousPositiveY && keys[int(' ')] && gameObject->velocity.y == 0)
 	{
 		previousPositiveY = true;
@@ -65,6 +71,7 @@ void PlayerComponent::update(float elapsedTime)
 	if (cursorOffset.x == 0 && cursorOffset.y == 0)
 		return;
 
+	// Rotate the player if a mouse movement is detected
 	gameObject->rotation.x += cursorOffset.y / 10.0f;
 	gameObject->rotation.y += cursorOffset.x / 10.0f;
 	if (gameObject->rotation.x < -90)
@@ -77,6 +84,7 @@ void PlayerComponent::update(float elapsedTime)
 		gameObject->rotation.y += 360;
 }
 
+// Converts the walking direction and the rotation into a movement vector
 Vec3f PlayerComponent::convertHeading(const float rotation, float strafe, float forward, const float multiplier)
 {
 	auto speed = float(sqrt(strafe * strafe + forward * forward));

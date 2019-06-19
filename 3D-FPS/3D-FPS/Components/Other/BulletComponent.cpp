@@ -13,6 +13,7 @@ BulletComponent::~BulletComponent() = default;
 
 void BulletComponent::update(GameLogic& gameLogic, float elapsedTime)
 {
+	// Look if it has bounced and the velocity is 0, if so kill the bullet object
 	if (gameObject->velocity.x == 0 || gameObject->velocity.y == 0 || gameObject->velocity.z == 0)
 	{
 		hasHit = true;

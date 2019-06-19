@@ -11,7 +11,7 @@ class World
 
 	void initWorld(std::vector<GameObject *> &objects);
 	void readFile();
-	void setBlock(std::vector<GameObject *> &objects, int x, int y, Block::BlockType type) const;
+	void setBlock(std::vector<GameObject *> &objects, int x, int z, Block::BlockType blockType) const;
 	static Block::BlockType intToBlockType(int number);
 public:
 	World(std::vector<GameObject *> &objects);

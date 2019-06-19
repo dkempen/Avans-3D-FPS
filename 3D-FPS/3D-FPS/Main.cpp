@@ -13,6 +13,7 @@
 int width = 1280;
 int height = 720;
 
+// Key and mouse input
 bool keys[255];
 bool leftMouse;
 Vec2f cursorOffset;
@@ -43,14 +44,16 @@ void displayText();
 
 int main(int argc, char *argv[])
 {
+	// Glut setup
 	std::cout << "Hello World!" << std::endl;
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInit(&argc, argv);
 	glutInitWindowSize(width, height);
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2);
-	glutCreateWindow("3D Graphics First Person Shooter");
+	glutCreateWindow("3D Graphics First Person Shooter - Daan van Kempen 2019");
 	glutFullScreen();
 
+	// Callback functions
 	glutIdleFunc(onIdle);
 	glutDisplayFunc(onDisplay);
 	glutReshapeFunc(onReshape);
@@ -60,6 +63,7 @@ int main(int argc, char *argv[])
 	glutMotionFunc(onMotion);
 	glutMouseFunc(onMouse);
 
+	// Inits
 	glutWarpPointer(width / 2, height / 2);
 	initGL();
 	initData();
@@ -84,6 +88,7 @@ void initData()
 
 void onDisplay()
 {
+	// Standard operations
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -100,12 +105,11 @@ void onDisplay()
 		player->position.x,
 		player->position.y + player->getComponent<PlayerComponent>()->headHeight,
 		player->position.z);
-	
+
 	//Lighting
 	GLfloat matSpecular[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat matShininess[] = { 50.0 };
 	GLfloat lightPosition[] = { -5.0, -2.0, -5.0, 0.0 };
-	GLfloat lightPosition1[] = { -15.0, -2.0, -15.0, 0.0 };
 	GLfloat lightAmbient[] = { 0.0, 0.0, 0.0, 1.0 };
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_SMOOTH);
@@ -115,17 +119,13 @@ void onDisplay()
 
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
-	// glLightfv(GL_LIGHT1, GL_POSITION, lightPosition1);
-	// glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 
 	glEnable(GL_LIGHT0);
-	// glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 
 	// Draw stuff
 	gameLogic.draw();
-
 	displayText();
 
 	glutSwapBuffers();
@@ -133,17 +133,17 @@ void onDisplay()
 
 void displayText()
 {
-	// Create a string that displays the fps, current camera location and rotation
-	auto player = gameLogic.getPlayer();
+	// Create a string that displays the fps, current camera location, rotation and velocity
+	const auto player = gameLogic.getPlayer();
 	std::stringstream ss;
 	ss << std::fixed << std::setprecision(5) <<
 		"fps " + std::to_string(int(1 / deltaTime)) <<
 		"\npx " + std::to_string(player->position.x) <<
 		"\npy " + std::to_string(player->position.y) <<
 		"\npz " + std::to_string(player->position.z) <<
-		"\n\nrx "+std::to_string(player->rotation.x) <<
+		"\n\nrx " + std::to_string(player->rotation.x) <<
 		"\nry " + std::to_string(player->rotation.y) <<
-		"\n\nvx "+std::to_string(player->velocity.x) <<
+		"\n\nvx " + std::to_string(player->velocity.x) <<
 		"\nvy " + std::to_string(player->velocity.y) <<
 		"\nvz " + std::to_string(player->velocity.z);
 	auto text = ss.str();
@@ -178,6 +178,7 @@ void displayText()
 
 void onIdle()
 {
+	// Get elapsed time
 	const auto frameTime = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float, std::milli> elapsed = frameTime - lastFrameTime;
 	deltaTime = elapsed.count() / 1000.0f;
@@ -192,25 +193,26 @@ void onIdle()
 	glutPostRedisplay();
 }
 
-void onKey(unsigned char keyId, int x, int y)
+void onKey(const unsigned char keyId, int x, int y)
 {
 	if (keyId == VK_ESCAPE)
 		exit(1);
 	keys[keyId] = true;
 }
 
-void onKeyUp(unsigned char keyId, int x, int y)
+void onKeyUp(const unsigned char keyId, int x, int y)
 {
 	keys[keyId] = false;
 }
 
-void onMotion(int x, int y)
+void onMotion(const int x, const int y)
 {
 	onMousePassiveMotion(x, y);
 }
 
-void onMousePassiveMotion(int x, int y)
+void onMousePassiveMotion(const int x, const int y)
 {
+	// Get cursor offset
 	const auto dx = x - width / 2.0f;
 	const auto dy = y - height / 2.0f;
 	if ((dx != 0 || dy != 0) && abs(dx) < 400 && abs(dy) < 400 && !justMovedMouse)
@@ -224,13 +226,13 @@ void onMousePassiveMotion(int x, int y)
 		justMovedMouse = false;
 }
 
-void onMouse(int button, int state, int x, int y)
+void onMouse(const int button, const int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 		leftMouse = !state;
 }
 
-void onReshape(int w, int h)
+void onReshape(const int w, const int h)
 {
 	width = w;
 	height = h;

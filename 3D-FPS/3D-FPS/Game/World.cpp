@@ -12,9 +12,10 @@ World::World(std::vector<GameObject*> &objects)
 void World::initWorld(std::vector<GameObject*> &objects)
 {
 	worldBlocks.resize(WORLD_SIZE, std::vector<int>(WORLD_SIZE));
-	
+
 	readFile();
 
+	// Create floor and ceiling blocks
 	for (auto x = 0; x < WORLD_SIZE; ++x)
 		for (auto z = 0; z < WORLD_SIZE; ++z)
 		{
@@ -27,10 +28,12 @@ void World::initWorld(std::vector<GameObject*> &objects)
 
 void World::readFile()
 {
+	// Open the world file
 	std::ifstream file("Game/world.txt");
 	if (!file.is_open())
 		return;
 
+	// Read the contents and place it in a 2D vector
 	std::string line;
 	auto x = 0, z = 0;
 	while (getline(file, line))
@@ -43,6 +46,7 @@ void World::readFile()
 	file.close();
 }
 
+// Create a textured block object for a given place in the world
 void World::setBlock(std::vector<GameObject *> &objects, const int x, const int z, Block::BlockType blockType) const
 {
 	if (blockType == Block::BlockType::NONE)
@@ -61,6 +65,7 @@ void World::setBlock(std::vector<GameObject *> &objects, const int x, const int 
 	objects.push_back(block);
 }
 
+// Gets the block height on a particular location for collision detection
 float World::getBlockHeight(const int x, const int z)
 {
 	if (x < 0 || z < 0 || x >= WORLD_SIZE || z >= WORLD_SIZE)
@@ -70,6 +75,7 @@ float World::getBlockHeight(const int x, const int z)
 	return block.size.y + block.posOffset.y;
 }
 
+// Sets the position to an empty block in the world, meaning no wall or crate is present
 void World::setOnRandomEmptyBlock(Vec3f &position) const
 {
 	while (true)
@@ -78,7 +84,7 @@ void World::setOnRandomEmptyBlock(Vec3f &position) const
 		const auto z = rand() % WORLD_SIZE;
 		if (worldBlocks[x][z] == 0)
 		{
-			position = {x + 0.5f, 0, z + 0.5f};
+			position = { x + 0.5f, 0, z + 0.5f };
 			return;
 		}
 	}

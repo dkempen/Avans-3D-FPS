@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GL/freeglut.h>
 #include <map>
 #include "../Game/Block.h"
 
@@ -13,5 +12,4 @@ public:
 	TextureManager();
 
 	void initBlockTextures(std::map<Block::BlockType, Block> &blocks) const;
-	GLint getTextureId() const;
 };

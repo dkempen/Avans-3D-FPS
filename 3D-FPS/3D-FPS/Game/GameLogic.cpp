@@ -81,6 +81,7 @@ void GameLogic::handleBullets()
 		bullet = nullptr;
 	}
 
+	// Kill a bullet when hit
 	for (auto it = objects.begin(); it != objects.end(); ++it)
 		if ((*it)->getComponent<BulletComponent>())
 			if ((*it)->getComponent<BulletComponent>()->hasHit)
@@ -101,11 +102,13 @@ void GameLogic::spawnAI()
 
 void GameLogic::handleAI(const float deltaTime)
 {
+	// Kill an AI when dead
 	for (auto it = objects.begin(); it != objects.end(); ++it)
 		if ((*it)->getComponent<AIComponent>())
 			if ((*it)->getComponent<AIComponent>()->isDead)
 				objects.erase(it--);
 
+	// Spawn a new AI when the timer is up
 	spawnCounter += deltaTime;
 	if (spawnCounter > 3)
 	{

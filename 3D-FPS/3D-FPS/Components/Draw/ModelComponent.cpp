@@ -5,7 +5,6 @@
 #include "../../Math/Graphics.h"
 #include "../../Data/DataManager.h"
 
-
 ModelComponent::ModelComponent(const std::string& modelName, const bool weaponOverlay)
 	: mesh(&DataManager::getInstance().getMesh(modelName)),
 	texture(&DataManager::getInstance().getTexture(modelName)),
@@ -17,6 +16,7 @@ ModelComponent::~ModelComponent() = default;
 
 void ModelComponent::draw()
 {
+	// If it's an overlay, reset the identity
 	if (weaponOverlay)
 	{
 		glLoadIdentity();
@@ -42,16 +42,20 @@ void ModelComponent::draw()
 
 	const uint8_t containerSize = sizeof(Vec3f) / sizeof(float);
 
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Graphics::Vertex), (float*)mesh->vertices.data() + containerSize * 2);
-	glNormalPointer(GL_FLOAT, sizeof(Graphics::Vertex), (float*)mesh->vertices.data() + containerSize);
-	glVertexPointer(3, GL_FLOAT, sizeof(Graphics::Vertex), (float*)mesh->vertices.data());
+	// Get the model data and give the pointers
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Graphics::Vertex), reinterpret_cast<float*>(mesh->vertices.data()) + containerSize * 2);
+	glNormalPointer(GL_FLOAT, sizeof(Graphics::Vertex), reinterpret_cast<float*>(mesh->vertices.data()) + containerSize);
+	glVertexPointer(3, GL_FLOAT, sizeof(Graphics::Vertex), reinterpret_cast<float*>(mesh->vertices.data()));
 
+	// Bind the texture
 	glBindTexture(GL_TEXTURE_2D, *texture);
 	glEnable(GL_TEXTURE_2D);
 
+	// And draw the data that has just been passed through
 	glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(mesh->vertices.size()));
 	glDisable(GL_TEXTURE_2D);
 
+	// Cleanup
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);

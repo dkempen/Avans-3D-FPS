@@ -4,7 +4,7 @@ BoundingBox::BoundingBox()
 {
 	min = { 0, 0, 0 };
 	max = { 0, 0, 0 };
-} 
+}
 
 BoundingBox::BoundingBox(const BoundingBox& boundingBox)
 {
@@ -12,7 +12,7 @@ BoundingBox::BoundingBox(const BoundingBox& boundingBox)
 	max = boundingBox.max;
 }
 
-BoundingBox::BoundingBox(Vec3f min, Vec3f max)
+BoundingBox::BoundingBox(const Vec3f& min, const Vec3f& max)
 {
 	this->min = min;
 	this->max = max;
@@ -20,7 +20,7 @@ BoundingBox::BoundingBox(Vec3f min, Vec3f max)
 
 BoundingBox BoundingBox::getAbsoluteBox(const Vec3f position) const
 {
-	BoundingBox absolute(*this);
+	auto absolute(*this);
 	absolute.min = {
 		position.x + min.x,
 		position.y + min.y,
